@@ -1,4 +1,4 @@
-React Native (web) global state management which does not get in your way API slightly influenced by Recoil from Facebook.
+Modern global state management for React which does not get in your way.
 
 # Roadmap
 - Publish to NPM (can anybody help?)
