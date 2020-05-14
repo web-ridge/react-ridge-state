@@ -77,7 +77,7 @@ export function useRidgeState<T>(state: {
   return [localState, setter];
 }
 
-export function getRidgeStateValue<T>(state: StateWithValue<T>): T {
+export function getRidgeState<T>(state: StateWithValue<T>): T {
   return state.value;
 }
 
