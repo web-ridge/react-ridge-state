@@ -1,21 +1,20 @@
 Very simple global state management which does not get in your way.
 
 # Roadmap
-
-- Publish to NPM
+- Publish to NPM (can anybody help?)
 
 # Features
+- Uses proxy
+- React / React Native
+- Simple
+- Fast
+- Very tiny
 
-- Uses Proxy
 
 
-1. Create a file e.g. CartState.tsx
-2. Import 
-```typescript
-import { newRidgeState } from 'react-ridge-state'
-```
 ## Create state (sort of a store)
 ```typescript
+import { newRidgeState } from 'react-ridge-state'
 interface CartProduct {
   id: number
   name: string
