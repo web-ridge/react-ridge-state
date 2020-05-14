@@ -37,14 +37,14 @@ const [cartProduct, setCartProduct] = useGlobalState(cartProductsState)
 ```
 
 ## Use state outside of React
-```
+```typescript
 import { getRidgeState } from 'react-ridge-state'
 getRidgeState(cartProductsState)
 
 ```
 
 ## Set state outside of React
-```
+```typescript
 import { getRidgeState } from 'react-ridge-state'
 setRidgeState(cartProductsState)
 
