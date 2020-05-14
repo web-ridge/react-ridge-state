@@ -1,4 +1,4 @@
-Modern global state management for React which does not get in your way.
+Really simple and small global state management for React which does not get in your way.
 
 # Roadmap
 - Publish to NPM (can anybody help?)
