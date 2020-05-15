@@ -12,7 +12,7 @@ or
 npm install react-ridge-state --save
 ```
 
-## Roadmap :running_woman: :running_man
+## Roadmap :running_woman: :running_man:
 
 - Persistent storage with custom get / set
 
