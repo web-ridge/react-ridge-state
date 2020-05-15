@@ -1,6 +1,7 @@
-**Simple** :muscle:, **fast** ⚡️ and **small** (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
+# react-ridge-state :weight_lifting_man:
+**Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
 
-# Install ⚡️
+## Install ⚡️
 
 If you use yarn
 
@@ -14,11 +15,11 @@ or if you use npm
 npm install react-ridge-state --save
 ```
 
-# Roadmap ⚡️
+## Roadmap ⚡️
 
 - Persistent storage with custom get / set
 
-# Features ⚡️
+## Features ⚡️
 
 - Uses proxy
 - React / React Native
@@ -26,9 +27,9 @@ npm install react-ridge-state --save
 - Fast
 - Very tiny
 
-# Getting started
+## Getting started
 
-## Create a new state
+### Create a new state
 
 ```typescript
 import { newRidgeState } from "react-ridge-state";
@@ -43,7 +44,7 @@ export const cartProductsState = newRidgeState<CartProduct[]>({
 });
 ```
 
-## Use state inside components
+### Use state inside components
 
 ```typescript
 import { useRidgeState } from "react-ridge-state";
@@ -51,14 +52,14 @@ import { useRidgeState } from "react-ridge-state";
 const [cartProduct, setCartProduct] = useGlobalState(cartProductsState);
 ```
 
-## Use state outside of React
+### Use state outside of React
 
 ```typescript
 import { getRidgeState } from "react-ridge-state";
 getRidgeState(cartProductsState);
 ```
 
-## Set state outside of React
+### Set state outside of React
 
 ```typescript
 import { getRidgeState } from 'react-ridge-state'
@@ -66,7 +67,7 @@ setRidgeState(cartProductsState, [{{id:1, name:'NiceProduct'}])
 
 ```
 
-# Publish
+## Publish
 
 ```
 yarn build
