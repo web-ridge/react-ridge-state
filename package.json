@@ -1,0 +1,14 @@
+{
+  "name": "react-ridge-state",
+  "version": "2.0.0",
+  "description": "react-ridge-state is a very simple global state management library for React and React Native",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/web-ridge/react-ridge-state",
+  "license": "MIT",
+  "readme": "README.md",
+  "devDependencies": {
+    "react": "^16.13.1",
+    "typescript": "^3.9.2"
+  }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 
-//@ts-ignore
+// global reference to store things in React (Native)
+// @ts-ignore
 const root: any = window || global;
 
 interface StateWithValue<T> {
@@ -17,7 +18,7 @@ export function newRidgeState<T>({
   const subscriberKey = `wr_subscribers_${key}`;
 
   root[subscriberKey] = [];
-  //@ts-ignore
+
   const proxy = new Proxy(
     { value: defaultState },
     {
@@ -28,6 +29,8 @@ export function newRidgeState<T>({
         return undefined;
       },
       set(state: StateWithValue<T>, _: string, newState: T) {
+        // This is a proxy hook
+        // We only want to change value so we ignore the key here
         state.value = newState;
 
         // let subscribers know value did change
@@ -44,9 +47,21 @@ export function useRidgeState<T>(state: {
   value: T;
 }): [T, (newState: T) => any] {
   const [localState, setLocalState] = useState<T>(state.value);
+
+  const updateLocalStateIfDifferent = useCallback(
+    (newState) => {
+      if (newState !== localState) {
+        setLocalState(newState);
+      }
+    },
+    [localState]
+  );
+
   useEffect(() => {
     function stateChanged(newState: T) {
-      setLocalState(newState);
+      // update local state only if it has not changed already
+      // so this state will be updated if it was called outside of this hook
+      updateLocalStateIfDifferent(newState);
     }
 
     // @ts-ignore
@@ -54,8 +69,6 @@ export function useRidgeState<T>(state: {
       state,
       "subscriberKey"
     ).value;
-
-    console.log({ subscriberKey });
 
     // @ts-ignore
     window[subscriberKey].push(stateChanged);
@@ -69,6 +82,11 @@ export function useRidgeState<T>(state: {
 
   const setter = useCallback(
     (newState: T) => {
+      // change local state as fast as possible
+      setLocalState(newState);
+
+      // update proxy value
+      // the proxy will let subscribers know it has changed
       state.value = newState;
     },
     [state.value]
