@@ -26,7 +26,7 @@ npm install react-ridge-state --save
 
 ## Roadmap :running_woman: :running_man:
 
-- Persistent storage with custom get / set
+- custom get / set async so you can fetch things from storage (like auth tokens)
 
 ## Getting started :clap: :ok_hand:
 
