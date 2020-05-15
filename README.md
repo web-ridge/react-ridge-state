@@ -47,7 +47,7 @@ export const cartProductsState = newRidgeState<CartProduct[]>({
 ```typescript
 import { useRidgeState } from "react-ridge-state";
 
-const [cartProduct, setCartProduct] = useGlobalState(cartProductsState);
+const [cartProduct, setCartProduct] = useRidgeState(cartProductsState);
 ```
 
 ### Use state outside of React
@@ -60,9 +60,8 @@ getRidgeState(cartProductsState);
 ### Set state outside of React
 
 ```typescript
-import { getRidgeState } from 'react-ridge-state'
-setRidgeState(cartProductsState, [{{id:1, name:'NiceProduct'}])
-
+import { getRidgeState } from "react-ridge-state";
+setRidgeState(cartProductsState, [{ id: 1, name: "NiceProduct" }]);
 ```
 
 ## Publish
