@@ -2,12 +2,12 @@ Really simple and small global state management for React which does not get in 
 
 # Install
 
-Yarn
+If you use yarn 
 ```
 yarn add react-ridge-state
 ```
 
-Or NPM
+or if you use npm
 ```
 npm install react-ridge-state --save
 ```
