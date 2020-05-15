@@ -12,9 +12,6 @@ or
 npm install react-ridge-state --save
 ```
 
-## Roadmap :running_woman: :running_man:
-
-- Persistent storage with custom get / set
 
 ## Features :woman_juggling:
 
@@ -24,6 +21,10 @@ npm install react-ridge-state --save
 - Fast
 - Very tiny
 - Typescript
+
+## Roadmap :running_woman: :running_man:
+
+- Persistent storage with custom get / set
 
 ## Getting started :clap: :ok_hand:
 
@@ -62,10 +63,4 @@ getRidgeState(cartProductsState);
 ```typescript
 import { getRidgeState } from "react-ridge-state";
 setRidgeState(cartProductsState, [{ id: 1, name: "NiceProduct" }]);
-```
-
-## Publish
-
-```
-tsc && npm publish
 ```
