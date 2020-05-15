@@ -24,8 +24,8 @@ npm install react-ridge-state --save
 - Very tiny
 
 
-
-## Create state (sort of a store)
+# Getting started
+## Create a new state
 ```typescript
 import { newRidgeState } from 'react-ridge-state'
 interface CartProduct {
@@ -34,7 +34,7 @@ interface CartProduct {
 }
 const defaultState: CartProduct[] = [{id:1, name:'Product'}]
 export const cartProductsState = newRidgeState<CartProduct[]>({
-  key: 'CartState',
+  key: 'CartState', // needs to be unique across other global state
   defaultState,
 })
 ```
