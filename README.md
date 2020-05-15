@@ -63,6 +63,6 @@ getRidgeState(cartProductsState);
 ### Set state outside of React
 
 ```typescript
-import { getRidgeState } from "react-ridge-state";
+import { setRidgeState } from "react-ridge-state";
 setRidgeState(cartProductsState, [{ id: 1, name: "NiceProduct" }]);
 ```
