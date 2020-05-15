@@ -28,7 +28,7 @@ We were frustrated that the current solutions could often only be used from Reac
 
 ## Roadmap :running_woman: :running_man:
 
-- custom get / set async so you can fetch things from storage (like auth tokens)
+- Persistent (probably another libary)
 
 ## Getting started :clap: :ok_hand:
 
