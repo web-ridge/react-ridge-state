@@ -2,6 +2,7 @@ Really simple and small global state management for React which does not get in 
 
 # Roadmap
 - Publish to NPM (can anybody help?)
+- Persistent storage with custom get / set
 
 # Features
 - Uses proxy
