@@ -18,11 +18,12 @@ npm install react-ridge-state --save
 
 ## Features :woman_juggling:
 
-- Uses proxy
+- Uses Proxy (working in latest browsers and latest Hermes Engine :sparkling_heart:)
 - React / React Native
 - Simple
 - Fast
 - Very tiny
+- Typescript
 
 ## Getting started :clap: :ok_hand:
 
