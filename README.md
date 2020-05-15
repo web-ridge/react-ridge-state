@@ -12,6 +12,8 @@ or
 npm install react-ridge-state --save
 ```
 
+## Why another state library :thinking:
+We were frustrated that the current solutions could often only be used from React or have too complicated APIs. We wanted a lightweight solution with a smart API that can also be used outside React components.
 
 ## Features :woman_juggling:
 
