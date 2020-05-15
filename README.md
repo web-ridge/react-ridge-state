@@ -65,9 +65,3 @@ import { getRidgeState } from 'react-ridge-state'
 setRidgeState(cartProductsState, [{{id:1, name:'NiceProduct'}])
 
 ```
-
-## Publish
-
-```
-tsc && npm publish
-```
