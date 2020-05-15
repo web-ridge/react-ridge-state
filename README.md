@@ -1,7 +1,19 @@
 Really simple and small global state management for React which does not get in your way.
 
+# Install
+
+Yarn
+```
+yarn add react-ridge-state
+```
+
+Or NPM
+```
+npm install react-ridge-state --save
+```
+
+
 # Roadmap
-- Publish to NPM (can anybody help?)
 - Persistent storage with custom get / set
 
 # Features
