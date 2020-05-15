@@ -1,5 +1,5 @@
 # react-ridge-state :weight_lifting_woman: :muscle:	:weight_lifting_man: 
-**Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) global state management for React which does not get in your way. :racing_car:
+**Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) global state management for React which does not get in your way. # :racing_car:
 
 
 ```
