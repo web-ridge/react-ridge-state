@@ -1,6 +1,6 @@
-# react-ridge-state :weight_lifting_woman: ⚡️	:weight_lifting_man: 
-**Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) global state management for React which does not get in your way. 
+# react-ridge-state :weight_lifting_woman: ⚡️ :weight_lifting_man:
 
+**Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) global state management for React which does not get in your way.
 
 ```
 yarn add react-ridge-state
@@ -68,16 +68,5 @@ setRidgeState(cartProductsState, [{{id:1, name:'NiceProduct'}])
 ## Publish
 
 ```
-yarn build
-```
-
-or
-
-```
-npm run build
-```
-
-```
-npm version patch
-npm publish
+tsc && npm publish
 ```
