@@ -21,6 +21,8 @@ npm install react-ridge-state --save
 - Fast
 - Very tiny
 - Typescript
+- Hooks
+- Use outside React components
 
 ## Roadmap :running_woman: :running_man:
 
