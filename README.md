@@ -65,3 +65,20 @@ import { getRidgeState } from 'react-ridge-state'
 setRidgeState(cartProductsState, [{{id:1, name:'NiceProduct'}])
 
 ```
+
+# Publish
+
+```
+yarn build
+```
+
+or
+
+```
+npm run build
+```
+
+```
+npm version patch
+npm publish
+```
