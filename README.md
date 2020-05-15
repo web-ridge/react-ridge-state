@@ -1,4 +1,4 @@
-Really simple :muscle:, fast ⚡️ and small (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
+**Simple** :muscle:, **fast** ⚡️ and **small** (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
 
 # Install ⚡️
 
