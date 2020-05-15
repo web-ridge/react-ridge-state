@@ -1,7 +1,7 @@
 # react-ridge-state :weight_lifting_man: ⚡️ :muscle:
 **Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
 
-## Install ⚡️
+## Install :clap:
 
 If you use yarn
 
@@ -15,11 +15,11 @@ or if you use npm
 npm install react-ridge-state --save
 ```
 
-## Roadmap ⚡️
+## Roadmap :running_woman: :running_man
 
 - Persistent storage with custom get / set
 
-## Features ⚡️
+## Features :woman_juggling:
 
 - Uses proxy
 - React / React Native
@@ -27,7 +27,7 @@ npm install react-ridge-state --save
 - Fast
 - Very tiny
 
-## Getting started
+## Getting started :clap: :ok_hand:
 
 ### Create a new state
 
