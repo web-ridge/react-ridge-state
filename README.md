@@ -1,15 +1,12 @@
 # react-ridge-state :weight_lifting_man: ⚡️ :muscle:
 **Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
 
-## Install :clap:
-
-If you use yarn
 
 ```
 yarn add react-ridge-state
 ```
 
-or if you use npm
+or
 
 ```
 npm install react-ridge-state --save
