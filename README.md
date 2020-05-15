@@ -1,6 +1,6 @@
-Really simple and small global state management for React which does not get in your way.
+Really simple :muscle:, fast ⚡️ and small (1.6kb) :weight_lifting_man: global state management for React which does not get in your way.
 
-# Install
+# Install ⚡️
 
 If you use yarn
 
@@ -14,11 +14,11 @@ or if you use npm
 npm install react-ridge-state --save
 ```
 
-# Roadmap
+# Roadmap ⚡️
 
 - Persistent storage with custom get / set
 
-# Features
+# Features ⚡️
 
 - Uses proxy
 - React / React Native
