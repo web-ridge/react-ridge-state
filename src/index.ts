@@ -1,37 +1,24 @@
 import * as R from "react";
 
-// global reference to store things in React (Native)
-// @ts-ignore
-const r: any = window || global;
+type SubscriberFunc<T> = (newState: T) => any;
 
 interface StateWithValue<T> {
   i: {
-    // internal
     v: T;
+    sbs: SubscriberFunc<T>[];
   };
-  sk: string;
   _set: (n: T) => any;
 }
 
-export function newRidgeState<T>({
-  key,
-  defaultState,
-}: {
-  key: string;
-  defaultState: T;
-}): StateWithValue<T> {
-  // subscriber key
-  const sk = `rrs_${key}`;
-  r[sk] = [];
-
-  const i = { v: defaultState };
+export function newRidgeState<T>(defaultState: T): StateWithValue<T> {
+  const i = { v: defaultState, sbs: [] };
   return {
     i,
-    sk,
     _set: (ns: T) => {
+      // change internal value
       i.v = ns;
       // let subscribers know value did change
-      r[sk].forEach((c: any) => c(ns));
+      i.sbs.forEach((c: any) => c(ns));
     },
   };
 }
@@ -56,12 +43,9 @@ export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
       u(ns);
     }
 
-    const sk = s.sk;
-    // @ts-ignore
-    r[sk].push(c);
+    s.i.sbs.push(c);
     return () => {
-      // @ts-ignore
-      r[sk] = r[sk].filter((f: () => any) => f !== c);
+      s.i.sbs = s.i.sbs.filter((f) => f !== c);
     };
   });
 
