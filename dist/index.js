@@ -14,12 +14,12 @@ function newRidgeState(v) {
 }
 exports.newRidgeState = newRidgeState;
 function useRidgeState(s) {
-    let [ls, sls] = R.useState(s.i.v);
+    let [l, sl] = R.useState(s.i.v);
     let u = R.useCallback((ns) => {
-        if (ns !== ls) {
-            sls(ns);
+        if (ns !== l) {
+            sl(ns);
         }
-    }, [ls]);
+    }, [l]);
     R.useEffect(() => {
         function c(ns) {
             u(ns);
@@ -29,11 +29,11 @@ function useRidgeState(s) {
             s.i.sbs = s.i.sbs.filter((f) => f !== c);
         };
     });
-    let lset = R.useCallback((ns) => {
-        sls(ns);
+    let c = R.useCallback((ns) => {
+        sl(ns);
         s._set(ns);
     }, []);
-    return [ls, lset];
+    return [l, c];
 }
 exports.useRidgeState = useRidgeState;
 function getRidgeState(s) {

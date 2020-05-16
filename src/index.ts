@@ -24,16 +24,16 @@ export function newRidgeState<T>(v: T): StateWithValue<T> {
 }
 
 export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
-  let [ls, sls] = R.useState<T>(s.i.v);
+  let [l, sl] = R.useState<T>(s.i.v);
 
   // update local state if different
   let u = R.useCallback(
     (ns: T) => {
-      if (ns !== ls) {
-        sls(ns);
+      if (ns !== l) {
+        sl(ns);
       }
     },
-    [ls]
+    [l]
   );
 
   R.useEffect(() => {
@@ -49,13 +49,13 @@ export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
     };
   });
 
-  let lset = R.useCallback((ns: T) => {
+  let c = R.useCallback((ns: T) => {
     // change local state as fast as possible
-    sls(ns);
+    sl(ns);
     s._set(ns);
   }, []);
 
-  return [ls, lset];
+  return [l, c];
 }
 
 export function getRidgeState<T>(s: StateWithValue<T>): T {
