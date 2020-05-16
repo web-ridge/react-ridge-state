@@ -1,12 +1,13 @@
-import { useEffect, useState, useCallback } from "react";
+import * as R from "react";
 
 // global reference to store things in React (Native)
 // @ts-ignore
 const r: any = window || global;
 
 interface StateWithValue<T> {
-  internal: {
-    value: T;
+  i: {
+    // internal
+    v: T;
   };
   sk: string;
   _set: (n: T) => any;
@@ -20,66 +21,63 @@ export function newRidgeState<T>({
   defaultState: T;
 }): StateWithValue<T> {
   // subscriber key
-  const sk = `wr_subscribers_${key}`;
+  const sk = `rrs_${key}`;
   r[sk] = [];
 
-  const internal = { value: defaultState };
+  const i = { v: defaultState };
   return {
-    internal,
+    i,
     sk,
-    _set: (newState: T) => {
-      internal.value = newState;
+    _set: (ns: T) => {
+      i.v = ns;
       // let subscribers know value did change
-      r[sk].forEach((callback: any) => callback(newState));
+      r[sk].forEach((c: any) => c(ns));
     },
   };
 }
 
-export function useRidgeState<T>(
-  state: StateWithValue<T>
-): [T, (newState: T) => any] {
-  const [localState, setLocalState] = useState<T>(state.internal.value);
+export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
+  const [ls, sls] = R.useState<T>(s.i.v);
 
-  const updateLocalStateIfDifferent = useCallback(
-    (newState: T) => {
-      if (newState !== localState) {
-        setLocalState(newState);
+  // update local state if different
+  const u = R.useCallback(
+    (ns: T) => {
+      if (ns !== ls) {
+        sls(ns);
       }
     },
-    [localState]
+    [ls]
   );
 
-  useEffect(() => {
-    function stateChanged(newState: T) {
+  R.useEffect(() => {
+    function c(ns: T) {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
-      updateLocalStateIfDifferent(newState);
+      u(ns);
     }
 
     // @ts-ignore
-    const subscriberKey = state.sk;
-    r[subscriberKey].push(stateChanged);
+    const sk = state.sk;
+    r[sk].push(c);
     return () => {
       // @ts-ignore
-      r[subscriberKey] = r[subscriberKey].filter(
-        (f: () => any) => f !== stateChanged
-      );
+      r[sk] = r[sk].filter((f: () => any) => f !== c);
     };
   });
 
-  const setter = useCallback((newState: T) => {
+  const lset = R.useCallback((ns: T) => {
     // change local state as fast as possible
-    setLocalState(newState);
-    state._set(newState);
+    sls(ns);
+    s._set(ns);
   }, []);
 
-  return [localState, setter];
+  return [ls, lset];
 }
 
-export function getRidgeState<T>(state: StateWithValue<T>): T {
-  return state.internal.value;
+export function getRidgeState<T>(s: StateWithValue<T>): T {
+  return s.i.v;
 }
 
-export function setRidgeState<T>(state: StateWithValue<T>, newState: T) {
-  state._set(newState);
+export function setRidgeState<T>(s: StateWithValue<T>, ns: T) {
+  s._set(ns);
 }
