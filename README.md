@@ -40,11 +40,9 @@ interface CartProduct {
   id: number;
   name: string;
 }
-const defaultState: CartProduct[] = [{ id: 1, name: "Product" }];
-export const cartProductsState = newRidgeState<CartProduct[]>({
-  key: "CartState", // needs to be unique across other global state
-  defaultState,
-});
+export const cartProductsState = newRidgeState<CartProduct[]>([
+  { id: 1, name: "Product" },
+]);
 ```
 
 ### Use state inside components
