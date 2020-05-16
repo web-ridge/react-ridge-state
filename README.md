@@ -1,6 +1,6 @@
 # react-ridge-state :weight_lifting_woman: ⚡️ :weight_lifting_man:
 
-**Simple** :muscle: **fast** ⚡️ and **small** (1.6kb) global state management for React which does not get in your way.
+**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (1.6kb) global state management for React which does not get in your way.
 
 ```
 yarn add react-ridge-state
@@ -12,6 +12,8 @@ or
 npm install react-ridge-state --save
 ```
 
+## Why another state library :thinking:
+We were frustrated that the current solutions could often only be used from React or have too complicated APIs. We wanted a lightweight solution with a smart API that can also be used outside React components.
 
 ## Features :woman_juggling:
 
@@ -21,10 +23,12 @@ npm install react-ridge-state --save
 - Fast
 - Very tiny
 - Typescript
+- Hooks
+- Use outside React components
 
 ## Roadmap :running_woman: :running_man:
 
-- Persistent storage with custom get / set
+- Persistent (probably another libary)
 
 ## Getting started :clap: :ok_hand:
 
@@ -48,7 +52,7 @@ export const cartProductsState = newRidgeState<CartProduct[]>({
 ```typescript
 import { useRidgeState } from "react-ridge-state";
 
-const [cartProduct, setCartProduct] = useRidgeState(cartProductsState);
+const [cartProducts, setCartProducts] = useRidgeState(cartProductsState);
 ```
 
 ### Use state outside of React
@@ -61,6 +65,6 @@ getRidgeState(cartProductsState);
 ### Set state outside of React
 
 ```typescript
-import { getRidgeState } from "react-ridge-state";
+import { setRidgeState } from "react-ridge-state";
 setRidgeState(cartProductsState, [{ id: 1, name: "NiceProduct" }]);
 ```
