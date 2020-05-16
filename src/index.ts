@@ -18,7 +18,9 @@ export function newRidgeState<T>(v: T): StateWithValue<T> {
       // change internal value
       i.v = ns;
       // let subscribers know value did change
-      i.sbs.forEach((c: any) => c(ns));
+      setTimeout(() => {
+        i.sbs.forEach((c: any) => c(ns));
+      });
     },
   };
 }
