@@ -56,8 +56,8 @@ export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
       u(ns);
     }
 
+    const sk = s.sk;
     // @ts-ignore
-    const sk = state.sk;
     r[sk].push(c);
     return () => {
       // @ts-ignore
