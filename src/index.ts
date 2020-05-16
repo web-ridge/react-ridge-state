@@ -11,7 +11,7 @@ interface StateWithValue<T> {
 }
 
 export function newRidgeState<T>(v: T): StateWithValue<T> {
-  const i = { v, sbs: [] };
+  let i = { v, sbs: [] };
   return {
     i,
     _set: (ns: T) => {
@@ -24,10 +24,10 @@ export function newRidgeState<T>(v: T): StateWithValue<T> {
 }
 
 export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
-  const [ls, sls] = R.useState<T>(s.i.v);
+  let [ls, sls] = R.useState<T>(s.i.v);
 
   // update local state if different
-  const u = R.useCallback(
+  let u = R.useCallback(
     (ns: T) => {
       if (ns !== ls) {
         sls(ns);
@@ -49,7 +49,7 @@ export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
     };
   });
 
-  const lset = R.useCallback((ns: T) => {
+  let lset = R.useCallback((ns: T) => {
     // change local state as fast as possible
     sls(ns);
     s._set(ns);

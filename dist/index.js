@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setRidgeState = exports.getRidgeState = exports.useRidgeState = exports.newRidgeState = void 0;
 const R = require("react");
 function newRidgeState(v) {
-    const i = { v, sbs: [] };
+    let i = { v, sbs: [] };
     return {
         i,
         _set: (ns) => {
@@ -14,8 +14,8 @@ function newRidgeState(v) {
 }
 exports.newRidgeState = newRidgeState;
 function useRidgeState(s) {
-    const [ls, sls] = R.useState(s.i.v);
-    const u = R.useCallback((ns) => {
+    let [ls, sls] = R.useState(s.i.v);
+    let u = R.useCallback((ns) => {
         if (ns !== ls) {
             sls(ns);
         }
@@ -29,7 +29,7 @@ function useRidgeState(s) {
             s.i.sbs = s.i.sbs.filter((f) => f !== c);
         };
     });
-    const lset = R.useCallback((ns) => {
+    let lset = R.useCallback((ns) => {
         sls(ns);
         s._set(ns);
     }, []);
