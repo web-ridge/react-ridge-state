@@ -1,6 +1,6 @@
 # react-ridge-state :weight_lifting_woman: ⚡️ :weight_lifting_man:
 
-**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (0.7kb) global state management for React which does not get in your way.
+**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (0.7kb) global state management for React which can be used outside of a React component too!
 
 ```
 yarn add react-ridge-state
@@ -66,3 +66,8 @@ getRidgeState(cartProductsState);
 import { setRidgeState } from "react-ridge-state";
 setRidgeState(cartProductsState, [{ id: 1, name: "NiceProduct" }]);
 ```
+
+## About us
+We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.
+
+Checkout our other products too! :ok_hand: https://github.com/web-ridge
