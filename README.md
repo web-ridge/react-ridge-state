@@ -1,6 +1,6 @@
 # react-ridge-state :weight_lifting_woman: ⚡️ :weight_lifting_man:
 
-**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (0.7kb) global state management for React which does not get in your way.
+**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (0.7kb) global state management for React which can be used outside of a React component too!
 
 ```
 yarn add react-ridge-state
