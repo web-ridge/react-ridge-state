@@ -28,7 +28,7 @@ function useRidgeState(s) {
         function c(ns) {
             u(ns);
         }
-        const sk = state.sk;
+        const sk = s.sk;
         r[sk].push(c);
         return () => {
             r[sk] = r[sk].filter((f) => f !== c);
