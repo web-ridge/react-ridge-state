@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setRidgeState = exports.getRidgeState = exports.useRidgeState = exports.newRidgeState = void 0;
 const R = require("react");
-function newRidgeState(defaultState) {
-    const i = { v: defaultState, sbs: [] };
+function newRidgeState(v) {
+    const i = { v, sbs: [] };
     return {
         i,
         _set: (ns) => {

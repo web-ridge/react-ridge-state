@@ -10,8 +10,8 @@ interface StateWithValue<T> {
   _set: (n: T) => any;
 }
 
-export function newRidgeState<T>(defaultState: T): StateWithValue<T> {
-  const i = { v: defaultState, sbs: [] };
+export function newRidgeState<T>(v: T): StateWithValue<T> {
+  const i = { v, sbs: [] };
   return {
     i,
     _set: (ns: T) => {
