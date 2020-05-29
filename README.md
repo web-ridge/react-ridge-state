@@ -29,6 +29,8 @@ We were frustrated that the current solutions could often only be used from Reac
 ## Roadmap :running_woman: :running_man:
 
 - Persistent (probably another libary)
+- Custom selectors
+- Even simpler api without needing to import anything from react-ridge-state (coming in v4)
 
 ## Getting started :clap: :ok_hand:
 
