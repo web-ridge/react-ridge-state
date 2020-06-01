@@ -82,6 +82,33 @@ cartProductsState.set(
 );
 ```
 
+### Persistency
+
+It's possible to add persistency to your state. (add try/catch if you use localStorage in real app)
+
+```typescript
+const authStorageKey = "auth";
+const authState = newRidgeState<AuthState>(
+  getInitialState() || emptyAuthState,
+  { onSet }
+);
+
+// getInitialState fetches data from localStorage
+function getInitialState() {
+  let initialState = undefined;
+  const item = localStorage.getItem(authStorageKey);
+  if (item) {
+    initialState = JSON.parse(item);
+  }
+}
+
+// onSet is called after state has been set
+function onSet() {
+  // save to local storage
+  localStorage.setItem(authStorageKey, JSON.stringify(newState));
+}
+```
+
 ## About us
 
 We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.

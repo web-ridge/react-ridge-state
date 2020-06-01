@@ -13,7 +13,11 @@ interface StateWithValue<T> {
   ) => any;
 }
 
-export function newRidgeState<T>(iv: T): StateWithValue<T> {
+interface Options<T> {
+  onSet?: (newState: T) => any;
+}
+
+export function newRidgeState<T>(iv: T, o: Options<T>): StateWithValue<T> {
   // subscribers with callbacks for external updates
   let sb: SubscriberFunc<T>[] = [];
 
@@ -40,6 +44,9 @@ export function newRidgeState<T>(iv: T): StateWithValue<T> {
 
       // callback after state is set
       ac && ac(v);
+
+      // let options function know when state has been set
+      o.onSet && o.onSet(v);
     });
   };
 
