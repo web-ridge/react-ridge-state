@@ -54,21 +54,17 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   let use = (): [T, (newState: T) => any] => {
     let [l, sl] = R.useState<T>(v);
 
-    // update local state if different
-    let u = R.createRef((ns: T) => sl(ns));
-
     R.useEffect(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
-      sb.push(u.current);
+      sb.push(sl);
       return () => {
-        sb = sb.filter((f) => f !== u.current);
+        sb = sb.filter((f) => f !== sl);
       };
     });
 
     // notify external subscribers and components
-    let c = R.useCallback((ns: T) => set(ns, null, u.current), [u]);
-
+    let c = R.useCallback((ns) => set(ns, null, sl), [sl]);
     return [l, c];
   };
 
