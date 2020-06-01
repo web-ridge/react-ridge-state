@@ -81,7 +81,38 @@ cartProductsState.set(
 );
 ```
 
-### Persistency
+### Counter example
+
+```tsx
+import { newRidgeState } from "react-ridge-state";
+
+// this can be used everywhere in your application
+export const globalCounterState = newRidgeState<number>(0);
+
+function CounterComponent() {
+  const [count, setCount] = globalCounterState.use();
+  return (
+    <div>
+      <div>Count: {count}</div>
+      <button onClick={() => setCount(c + 1)}>Add 1</button>
+    </div>
+  );
+}
+
+// you can use these everywhere in your application the globalCounterState will update automatically
+// even if set globally
+function CounterViewer() {
+  const [c, sc] = globalCounterState.useValue();
+
+  return (
+    <div>
+      <div>Count: {c}</div>
+    </div>
+  );
+}
+```
+
+### Persistence example
 
 It's possible to add persistency to your state. (add try/catch if you use localStorage in real app)
 
