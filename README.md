@@ -1,6 +1,6 @@
 # react-ridge-state :weight_lifting_woman: ⚡️ :weight_lifting_man:
 
-**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (0.7kb) global state management for React which can be used outside of a React component too!
+**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (500 bytes) global state management for React which can be used outside of a React component too!
 
 ```
 yarn add react-ridge-state
@@ -21,7 +21,7 @@ We were frustrated that the current solutions could often only be used from Reac
 - React / React Native
 - Simple
 - Fast
-- Very tiny
+- Very tiny (500 bytes)
 - 100% Typesafe
 - Hooks
 - Use outside React components
