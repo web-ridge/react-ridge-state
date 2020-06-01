@@ -64,15 +64,17 @@ cartProductsState.get();
 
 ```typescript
 import { cartProductsState } from "../cartProductsStatee";
+
+// simple and direct
 cartProductsState.set([{ id: 1, name: "NiceProduct" }]);
 
-// if you want previous state
+// if you want previous state as callback
 cartProductsState.set((prevState) => [
   ...prevState,
   { id: 1, name: "NiceProduct" },
 ]);
 
-// if you want want to be sure state is rendered everywhere
+// you can also use a callback so you know when state has rendered
 cartProductsState.set(
   (prevState) => [...prevState, { id: 1, name: "NiceProduct" }],
   (newState) => {
