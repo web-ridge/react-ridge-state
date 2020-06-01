@@ -7,9 +7,9 @@ interface StateWithValue<T> {
   useValue: () => T;
   get: () => T;
   set: (
-    newState: T | ((prev: T) => T),
-    ac?: (newState: T) => any,
-    ca?: (ns: T) => any
+    newState: T | ((prev: T) => T), // can be the newState or a function with prevState in params and which needs to return new state
+    ac?: (newState: T) => any, // callback with the newState after state has been set
+    ca?: (ns: T) => any // caller is used inside react components so we can we do faster updates to the caller
   ) => any;
 }
 
