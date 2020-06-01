@@ -60,14 +60,14 @@ export function newRidgeState<T>(iv: T, o: Options<T>): StateWithValue<T> {
     R.useEffect(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
-      sb.push(u);
+      sb.push(u.current);
       return () => {
-        sb = sb.filter((f) => f !== u);
+        sb = sb.filter((f) => f !== u.current);
       };
     });
 
     // notify external subscribers and components
-    let c = R.useCallback((ns: T) => set(ns, null, u), [u]);
+    let c = R.useCallback((ns: T) => set(ns, null, u.current), [u]);
 
     return [l, c];
   };

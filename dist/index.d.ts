@@ -1,13 +1,11 @@
-declare type SubscriberFunc<T> = (newState: T) => any;
 interface StateWithValue<T> {
-    i: {
-        v: T;
-        subs: SubscriberFunc<T>[];
-    };
     use: () => [T, (newState: T) => any];
     useValue: () => T;
     get: () => T;
-    set: (newState: T, ac?: (newState: T) => any) => any;
+    set: (newState: T | ((prev: T) => T), ac?: (newState: T) => any, ca?: (ns: T) => any) => any;
 }
-export declare function newRidgeState<T>(v: T): StateWithValue<T>;
+interface Options<T> {
+    onSet?: (newState: T) => any;
+}
+export declare function newRidgeState<T>(iv: T, o: Options<T>): StateWithValue<T>;
 export {};
