@@ -35,7 +35,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     v = (v instanceof Function ? ns(v) : ns) as T;
 
     // notify caller subscriber direct
-    ca(v);
+    ca && ca(v);
 
     // let subscribers know value did change async
     setTimeout(() => {
