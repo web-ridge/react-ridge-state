@@ -74,10 +74,7 @@ export function newRidgeState<T>(iv: T, o: Options<T>): StateWithValue<T> {
 
   return {
     use,
-    useValue: () => {
-      let [uv] = use();
-      return uv;
-    },
+    useValue: () => use()[0],
     get: () => v,
     set,
   };
