@@ -16,14 +16,13 @@ function newRidgeState(iv, o) {
     };
     let use = () => {
         let [l, sl] = R.useState(v);
-        let u = R.createRef((ns) => sl(ns));
         R.useEffect(() => {
-            sb.push(u.current);
+            sb.push(sl);
             return () => {
-                sb = sb.filter((f) => f !== u.current);
+                sb = sb.filter((f) => f !== sl);
             };
         });
-        let c = R.useCallback((ns) => set(ns, null, u.current), [u]);
+        let c = R.useCallback((ns) => set(ns, null, sl), [sl]);
         return [l, c];
     };
     return {
