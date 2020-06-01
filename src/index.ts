@@ -3,67 +3,75 @@ import * as R from "react";
 type SubscriberFunc<T> = (newState: T) => any;
 
 interface StateWithValue<T> {
-  i: {
-    v: T;
-    sbs: SubscriberFunc<T>[];
-  };
-  _set: (n: T) => any;
+  use: () => [T, (newState: T) => any];
+  useValue: () => T;
+  get: () => T;
+  set: (
+    newState: T | ((prev: T) => T),
+    ac?: (newState: T) => any,
+    ca?: (ns: T) => any
+  ) => any;
 }
 
-export function newRidgeState<T>(v: T): StateWithValue<T> {
-  let i = { v, sbs: [] };
-  return {
-    i,
-    _set: (ns: T) => {
-      // change internal value
-      i.v = ns;
-      // let subscribers know value did change
-      setTimeout(() => {
-        i.sbs.forEach((c: any) => c(ns));
-      });
-    },
+export function newRidgeState<T>(iv: T): StateWithValue<T> {
+  // subscribers with callbacks for external updates
+  let sb: SubscriberFunc<T>[] = [];
+
+  // internal value of the state
+  let v: T = iv;
+
+  // set function
+  let set = (
+    ns: T | ((prev: T) => T),
+    ac?: (ns: T) => any,
+    ca?: (ns: T) => any
+  ) => {
+    // support previous as argument to new value
+    //@ts-ignore
+    v = (v instanceof Function ? ns(v) : ns) as T;
+
+    // notify caller subscriber direct
+    ca(v);
+
+    // let subscribers know value did change async
+    setTimeout(() => {
+      // call subscribers which are not the caller
+      sb.forEach((c: any) => c !== ca && c(v));
+
+      // callback after state is set
+      ac && ac(v);
+    });
   };
-}
 
-export function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any] {
-  let [l, sl] = R.useState<T>(s.i.v);
+  // use hook
+  let use = (): [T, (newState: T) => any] => {
+    let [l, sl] = R.useState<T>(v);
 
-  // update local state if different
-  let u = R.useCallback(
-    (ns: T) => {
-      if (ns !== l) {
-        sl(ns);
-      }
-    },
-    [l]
-  );
+    // update local state if different
+    let u = R.createRef((ns: T) => sl(ns));
 
-  R.useEffect(() => {
-    function c(ns: T) {
+    R.useEffect(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
-      u(ns);
-    }
+      sb.push(u);
+      return () => {
+        sb = sb.filter((f) => f !== u);
+      };
+    });
 
-    s.i.sbs.push(c);
-    return () => {
-      s.i.sbs = s.i.sbs.filter((f) => f !== c);
-    };
-  });
+    // notify external subscribers and components
+    let c = R.useCallback((ns: T) => set(ns, null, u), [u]);
 
-  let c = R.useCallback((ns: T) => {
-    // change local state as fast as possible
-    sl(ns);
-    s._set(ns);
-  }, []);
+    return [l, c];
+  };
 
-  return [l, c];
-}
-
-export function getRidgeState<T>(s: StateWithValue<T>): T {
-  return s.i.v;
-}
-
-export function setRidgeState<T>(s: StateWithValue<T>, ns: T) {
-  s._set(ns);
+  return {
+    use,
+    useValue: () => {
+      let [uv] = use();
+      return uv;
+    },
+    get: () => v,
+    set,
+  };
 }

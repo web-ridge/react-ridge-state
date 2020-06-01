@@ -2,12 +2,12 @@ declare type SubscriberFunc<T> = (newState: T) => any;
 interface StateWithValue<T> {
     i: {
         v: T;
-        sbs: SubscriberFunc<T>[];
+        subs: SubscriberFunc<T>[];
     };
-    _set: (n: T) => any;
+    use: () => [T, (newState: T) => any];
+    useValue: () => T;
+    get: () => T;
+    set: (newState: T, ac?: (newState: T) => any) => any;
 }
 export declare function newRidgeState<T>(v: T): StateWithValue<T>;
-export declare function useRidgeState<T>(s: StateWithValue<T>): [T, (ns: T) => any];
-export declare function getRidgeState<T>(s: StateWithValue<T>): T;
-export declare function setRidgeState<T>(s: StateWithValue<T>, ns: T): void;
 export {};

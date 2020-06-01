@@ -30,7 +30,6 @@ We were frustrated that the current solutions could often only be used from Reac
 
 - Persistent (probably another libary)
 - Custom selectors
-- Even simpler api without needing to import anything from react-ridge-state (coming in v4)
 
 ## Getting started :clap: :ok_hand:
 
@@ -50,26 +49,41 @@ export const cartProductsState = newRidgeState<CartProduct[]>([
 ### Use state inside components
 
 ```typescript
-import { useRidgeState } from "react-ridge-state";
+import { cartProductsState } from "../cartProductsStatee";
 
-const [cartProducts, setCartProducts] = useRidgeState(cartProductsState);
+const [cartProducts, setCartProducts] = cartProductsState.use();
 ```
 
 ### Use state outside of React
 
 ```typescript
-import { getRidgeState } from "react-ridge-state";
-getRidgeState(cartProductsState);
+import { cartProductsState } from "../cartProductsStatee";
+cartProductsState.get();
 ```
 
 ### Set state outside of React
 
 ```typescript
-import { setRidgeState } from "react-ridge-state";
-setRidgeState(cartProductsState, [{ id: 1, name: "NiceProduct" }]);
+import { cartProductsState } from "../cartProductsStatee";
+cartProductsState.set([{ id: 1, name: "NiceProduct" }]);
+
+// if you want previous state
+cartProductsState.set((prevState) => [
+  ...prevState,
+  { id: 1, name: "NiceProduct" },
+]);
+
+// if you want want to be sure state is rendered everywhere
+cartProductsState.set(
+  (prevState) => [...prevState, { id: 1, name: "NiceProduct" }],
+  (newState) => {
+    console.log("New state is rendered everywhere");
+  }
+);
 ```
 
 ## About us
+
 We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.
 
 Checkout our other products too! :ok_hand: https://github.com/web-ridge
