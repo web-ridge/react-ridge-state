@@ -11,7 +11,7 @@ function newRidgeState(iv, o) {
         setTimeout(() => {
             sb.forEach((c) => c !== ca && c(v));
             ac && ac(v);
-            o.onSet && o.onSet(v);
+            o && o.onSet && o.onSet(v);
         });
     };
     let use = () => {
@@ -28,10 +28,7 @@ function newRidgeState(iv, o) {
     };
     return {
         use,
-        useValue: () => {
-            let [uv] = use();
-            return uv;
-        },
+        useValue: () => use()[0],
         get: () => v,
         set,
     };
