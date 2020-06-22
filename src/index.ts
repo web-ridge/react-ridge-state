@@ -32,7 +32,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   ) => {
     // support previous as argument to new value
     //@ts-ignore
-    v = (v instanceof Function ? ns(v) : ns) as T;
+    v = (ns instanceof Function ? ns(v) : ns) as T;
 
     // notify caller subscriber direct
     ca && ca(v);
