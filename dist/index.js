@@ -6,7 +6,7 @@ function newRidgeState(iv, o) {
     let sb = [];
     let v = iv;
     let set = (ns, ac, ca) => {
-        v = (v instanceof Function ? ns(v) : ns);
+        v = (ns instanceof Function ? ns(v) : ns);
         ca && ca(v);
         setTimeout(() => {
             sb.forEach((c) => c !== ca && c(v));
