@@ -104,11 +104,11 @@ function CounterComponent() {
 // you can use these everywhere in your application the globalCounterState will update automatically
 // even if set globally
 function CounterViewer() {
-  const [c, sc] = globalCounterState.useValue();
+  const counter = globalCounterState.useValue();
 
   return (
     <div>
-      <div>Count: {c}</div>
+      <div>Count: {counter}</div>
     </div>
   );
 }
