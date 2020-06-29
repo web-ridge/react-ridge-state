@@ -59,7 +59,7 @@ const cartProducts = cartProductsState.useValue();
 // if you only want to subscribe to part of your state (this example the first product)
 const cartProducts = cartProductsState.useSelector((state) => state[0]);
 
-// custom comparison function (only use this if you have heavy child components and the default === comparison is not efficient enough)
+// custom comparison function (only use this if you have heavy child components and the default === comparison is not sufficient enough)
 const cartProducts = cartProductsState.useSelector(
   (state) => state[0],
   (a, b) => JSON.stringify(a) === JSON.stringify(b)
