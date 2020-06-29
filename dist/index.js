@@ -5,29 +5,46 @@ const R = require("react");
 function newRidgeState(iv, o) {
     let sb = [];
     let v = iv;
-    let set = (ns, ac, ca) => {
+    function set(ns, ac) {
         v = (ns instanceof Function ? ns(v) : ns);
-        ca && ca(v);
         setTimeout(() => {
-            sb.forEach((c) => c !== ca && c(v));
+            sb.forEach((c) => c(v));
             ac && ac(v);
             o && o.onSet && o.onSet(v);
         });
-    };
-    let use = () => {
-        let [l, sl] = R.useState(v);
+    }
+    function subscribe(ca) {
         R.useEffect(() => {
-            sb.push(sl);
+            sb.push(ca);
             return () => {
-                sb = sb.filter((f) => f !== sl);
+                sb = sb.filter((f) => f !== ca);
             };
         });
-        let c = R.useCallback((ns) => set(ns, null, sl), [sl]);
+    }
+    function use() {
+        let [l, sl] = R.useState(v);
+        subscribe(sl);
+        let c = R.useCallback((ns, ca) => set(ns, ca), [sl]);
         return [l, c];
-    };
+    }
+    function useValue() {
+        let [l, sl] = R.useState(v);
+        subscribe(sl);
+        return l;
+    }
+    function useSelect(selector, eq = (a, b) => a === b) {
+        let [l, sl] = R.useState(selector(v));
+        let c = R.useCallback((ns) => {
+            let n = selector(ns);
+            !eq(l, n) && sl(n);
+        }, [sl]);
+        subscribe(c);
+        return l;
+    }
     return {
         use,
-        useValue: () => use()[0],
+        useSelect,
+        useValue,
         get: () => v,
         set,
     };

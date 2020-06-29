@@ -4,7 +4,9 @@
     "target": "es2015",
     "declaration": true,
     "outDir": "./dist",
-    "removeComments": true
+
+    "removeComments": true,
+    "jsx": "react"
   },
-  "include": ["src/**/*"]
+  "include": ["src/*"]
 }
