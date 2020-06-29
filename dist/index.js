@@ -32,7 +32,7 @@ function newRidgeState(iv, o) {
         subscribe(sl);
         return l;
     }
-    function useSelect(selector, eq = (a, b) => a === b) {
+    function useSelector(selector, eq = (a, b) => a === b) {
         let [l, sl] = R.useState(selector(v));
         let c = R.useCallback((ns) => {
             let n = selector(ns);
@@ -43,7 +43,7 @@ function newRidgeState(iv, o) {
     }
     return {
         use,
-        useSelect,
+        useSelector,
         useValue,
         get: () => v,
         set,

@@ -127,7 +127,7 @@ const deepState = newRidgeState<DeepState>({
 let deepMediaRenders = 0;
 function DeepMedia() {
   deepMediaRenders++;
-  const imageVariation = deepState.useSelect(
+  const imageVariation = deepState.useSelector(
     (state) => state.cart.products[0].media[0].imageVariations[0]
   );
   return <img data-testid={"image"} src={imageVariation.url} />;

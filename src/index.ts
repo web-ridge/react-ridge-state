@@ -7,7 +7,7 @@ interface StateWithValue<T> {
   ];
   useValue: () => T;
   get: () => T;
-  useSelect: <TSelected = unknown>(
+  useSelector: <TSelected = unknown>(
     selector?: (state: T) => TSelected,
     equalityFn?: (left: TSelected, right: TSelected) => boolean
   ) => TSelected;
@@ -89,7 +89,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   }
 
   // select hook
-  function useSelect<TSelected = unknown>(
+  function useSelector<TSelected = unknown>(
     selector?: (state: T) => TSelected,
     eq = (a: TSelected, b: TSelected): boolean => a === b
   ): TSelected {
@@ -115,7 +115,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
 
   return {
     use,
-    useSelect,
+    useSelector,
     useValue,
     get: () => v,
     set,
