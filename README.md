@@ -38,10 +38,12 @@ We were frustrated that the current solutions could often only be used from Reac
 
 ```typescript
 import { newRidgeState } from "react-ridge-state";
+
 interface CartProduct {
   id: number;
   name: string;
 }
+
 export const cartProductsState = newRidgeState<CartProduct[]>([
   { id: 1, name: "Product" },
 ]);
