@@ -1,7 +1,7 @@
 # react-ridge-state :weight_lifting_woman: ⚡️ :weight_lifting_man:
 
 **Simple** :muscle: **fast** ⚡️ and **small** :balloon: (500 bytes) global state management for React which can be used outside of a React component too!
-
+![Bundle Size](https://badgen.net/bundlephobia/minzip/react-ridge-state) [![npm version](https://badge.fury.io/js/react-ridge-state.svg)](https://badge.fury.io/js/react-ridge-state) ![npm](https://img.shields.io/npm/dt/react-ridge-state.svg)
 ```
 yarn add react-ridge-state
 ```
