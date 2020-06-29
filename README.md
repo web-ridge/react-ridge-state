@@ -96,7 +96,7 @@ function CounterComponent() {
   return (
     <div>
       <div>Count: {count}</div>
-      <button onClick={() => setCount(c + 1)}>Add 1</button>
+      <button onClick={() => setCount(count + 1)}>Add 1</button>
     </div>
   );
 }
