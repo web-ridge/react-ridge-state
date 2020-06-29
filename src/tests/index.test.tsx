@@ -12,7 +12,13 @@ import {
 afterEach(cleanup);
 
 // this can be used everywhere in your application
-const globalCounterState = newRidgeState<number>(0);
+const globalCounterState = newRidgeState<number>(0, {
+  onSet: async (newState) => {
+    try {
+      localStorage.setItem("@key", JSON.stringify(newState));
+    } catch (e) {}
+  },
+});
 
 function CounterComponent() {
   const [count, setCount] = globalCounterState.use();
@@ -217,4 +223,6 @@ test("Test if unscribe works", async () => {
     globalCounterState.set(currentGlobalValue + 1);
   });
   await waitFor(() => expect(getCounterValueFromDiv("cv1")).toBe(3));
+
+  await waitFor(() => expect(localStorage.getItem("@key")).toBe(3));
 });

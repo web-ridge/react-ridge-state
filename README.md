@@ -50,7 +50,7 @@ export const cartProductsState = newRidgeState<CartProduct[]>([
 ```typescript
 import { cartProductsState } from "../cartProductsStatee";
 
-// same interface as setState
+// same interface and usage as setState
 const [cartProducts, setCartProducts] = cartProductsState.use();
 
 // if you only need the value and no setState
@@ -66,19 +66,15 @@ const cartProducts = cartProductsState.useSelector(
 );
 ```
 
-### Use state outside of React
+### Outside of React
 
 ```typescript
-import { cartProductsState } from "../cartProductsStatee";
+import { cartProductsState } from "../cartProductsState";
+
+// get the root state
 cartProductsState.get();
-```
 
-### Set state outside of React
-
-```typescript
-import { cartProductsState } from "../cartProductsStatee";
-
-// simple and direct
+// set the state directly
 cartProductsState.set([{ id: 1, name: "NiceProduct" }]);
 
 // if you want previous state as callback
@@ -96,15 +92,18 @@ cartProductsState.set(
 );
 ```
 
-### Counter example
+### Example
 
 ```tsx
+// CartState.ts
 import { newRidgeState } from "react-ridge-state";
 
 // this can be used everywhere in your application
-export const globalCounterState = newRidgeState<number>(0);
+export const globalCounterState = newRidgeState<number>(0); // 0 could be something else like objects etc. you decide!
 
-function CounterComponent() {
+// Counter.tsx
+function Counter() {
+  // you can use these everywhere in your application the globalCounterState will update automatically  even if set globally
   const [count, setCount] = globalCounterState.use();
   return (
     <div>
@@ -114,9 +113,9 @@ function CounterComponent() {
   );
 }
 
-// you can use these everywhere in your application the globalCounterState will update automatically
-// even if set globally
+// CounterViewer.tsx
 function CounterViewer() {
+  // you can use these everywhere in your application the globalCounterState will update automatically even if set globally
   const counter = globalCounterState.useValue();
 
   return (
@@ -129,29 +128,34 @@ function CounterViewer() {
 
 ### Persistence example
 
-It's possible to add persistency to your state. (add try/catch if you use localStorage in real app)
+It's possible to add persistency to your state, you can use every library you want. local storage is even simpler!
 
 ```typescript
 const authStorageKey = "auth";
 const authState = newRidgeState<AuthState>(
-  getInitialState() || emptyAuthState,
-  { onSet }
+  { loading: true, token: "" },
+  {
+    onSet: async (newState) => {
+      try {
+        await AsyncStorage.setItem("@key", JSON.stringify(newState));
+      } catch (e) {}
+    },
+  }
 );
 
-// getInitialState fetches data from localStorage
-function getInitialState() {
-  let initialState = undefined;
-  const item = localStorage.getItem(authStorageKey);
-  if (item) {
-    initialState = JSON.parse(item);
-  }
+// setInitialState fetches data from localStorage
+async function setInitialState() {
+  try {
+    const item = await AsyncStorage.getItem("@key");
+    if (item) {
+      const initialState = JSON.parse(item);
+      authState.set(initialState);
+    }
+  } catch (e) {}
 }
 
-// onSet is called after state has been set
-function onSet() {
-  // save to local storage
-  localStorage.setItem(authStorageKey, JSON.stringify(newState));
-}
+// run function as application starts
+setInitialState();
 ```
 
 ## About us
