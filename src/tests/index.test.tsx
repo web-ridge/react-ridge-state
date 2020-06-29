@@ -19,7 +19,10 @@ function CounterComponent() {
   return (
     <>
       <p data-testid={"cv1"}>{count}</p>
-      <button onClick={() => setCount(count + 1)} data-testid={"counterButton"}>
+      <button
+        onClick={() => setCount((prev) => prev + 1)}
+        data-testid={"counterButton"}
+      >
         +1
       </button>
     </>

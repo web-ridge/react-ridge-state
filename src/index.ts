@@ -1,7 +1,10 @@
 import * as R from "react";
 
 interface StateWithValue<T> {
-  use: () => [T, (newState: T, ac?: (newState: T) => any) => any];
+  use: () => [
+    T,
+    (newState: T | ((prev: T) => T), ac?: (newState: T) => any) => any
+  ];
   useValue: () => T;
   get: () => T;
   useSelect: <TSelected = unknown>(
@@ -61,7 +64,11 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   // use hook
   function use(): [
     T,
-    (newState: T, ac?: (newState: T) => any, ca?: (ns: T) => any) => any
+    (
+      newState: T | ((prev: T) => T),
+      ac?: (newState: T) => any,
+      ca?: (ns: T) => any
+    ) => any
   ] {
     let [l, sl] = R.useState<T>(v);
 
