@@ -52,7 +52,7 @@ export const cartProductsState = newRidgeState<CartProduct[]>([
 ### Use state inside components
 
 ```typescript
-import { cartProductsState } from "../cartProductsStatee";
+import { cartProductsState } from "../cartProductsState";
 
 // same interface and usage as setState
 const [cartProducts, setCartProducts] = cartProductsState.use();
