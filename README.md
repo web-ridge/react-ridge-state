@@ -149,7 +149,7 @@ export default function YourComponent(props) {
 
 ### Persistence example
 
-It's possible to add persistency to your state, you can use every library you want. local storage is even simpler!
+It's possible to add persistency to your state, you can use every library you want. localStorage is even simpler since you don't need async functions.
 
 ```typescript
 const authStorageKey = "auth";
