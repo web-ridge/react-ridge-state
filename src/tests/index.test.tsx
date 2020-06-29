@@ -224,5 +224,6 @@ test("Test if unscribe works", async () => {
   });
   await waitFor(() => expect(getCounterValueFromDiv("cv1")).toBe(3));
 
-  await waitFor(() => expect(localStorage.getItem("@key")).toBe(3));
+  // test if state is saved in persistent state
+  await waitFor(() => expect(JSON.parse(localStorage.getItem("@key"))).toBe(3));
 });

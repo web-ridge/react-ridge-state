@@ -126,6 +126,27 @@ function CounterViewer() {
 }
 ```
 
+### Usage in class components
+
+Since we want to keep this library small we are not supporting class components but you could use wrappers like this if you have class components, however we would recommend to use functional components since they are more type safe and easier to use.
+
+```tsx
+
+class YourComponentInternal() {
+  render() {
+    <div>
+      <div>Count: {this.props.count}</div>
+      <button onClick={() => this.props.setCount(count + 1)}>Add 1</button>
+    </div>
+  }
+}
+
+export default function YourComponent(props) {
+  const [count, setCount] = globalCounterState.use();
+  return <YourComponentInternal {...props} count={count} setCount={setCount}>
+}
+```
+
 ### Persistence example
 
 It's possible to add persistency to your state, you can use every library you want. local storage is even simpler!
