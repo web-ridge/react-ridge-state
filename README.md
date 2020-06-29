@@ -132,7 +132,7 @@ Since we want to keep this library small we are not supporting class components 
 
 ```tsx
 
-class YourComponentInternal() {
+class YourComponentInternal extends Component {
   render() {
     <div>
       <div>Count: {this.props.count}</div>
