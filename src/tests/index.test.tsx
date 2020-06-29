@@ -51,7 +51,7 @@ test("Both counters and global state change after click and global +", async () 
   });
 
   const getCounterValueFromDiv = (testId: string): number => {
-    return Number(getNodeText(counter.queryByTestId("cv1")));
+    return Number(getNodeText(counter.queryByTestId(testId)));
   };
 
   await waitFor(() => expect(getCounterValueFromDiv("cv1")).toBe(1));
@@ -183,4 +183,38 @@ test("Select should not re-render when not changed", async () => {
       "https://webridge.nl/favicon.png"
     )
   );
+});
+
+test("Test if unscribe works", async () => {
+  globalCounterState.set(0);
+  // test react hooks
+  const counter = render(<CounterComponent />);
+  const counter2 = render(<CounterViewer />);
+
+  act(() => {
+    fireEvent.click(counter.queryByTestId("counterButton"));
+  });
+
+  const getCounterValueFromDiv = (testId: string): number => {
+    return Number(getNodeText(counter.queryByTestId(testId)));
+  };
+
+  await waitFor(() => expect(getCounterValueFromDiv("cv1")).toBe(1));
+  await waitFor(() => expect(getCounterValueFromDiv("cv2")).toBe(1));
+
+  // test global state set with previous callback
+  act(() => {
+    globalCounterState.set((prev) => prev + 1);
+  });
+
+  counter2.unmount();
+
+  await waitFor(() => expect(getCounterValueFromDiv("cv1")).toBe(2));
+
+  // test global get/set
+  const currentGlobalValue = globalCounterState.get();
+  act(() => {
+    globalCounterState.set(currentGlobalValue + 1);
+  });
+  await waitFor(() => expect(getCounterValueFromDiv("cv1")).toBe(3));
 });

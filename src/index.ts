@@ -58,7 +58,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       return () => {
         sb = sb.filter((f) => f !== ca);
       };
-    });
+    }, []);
   }
 
   // use hook

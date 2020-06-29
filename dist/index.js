@@ -19,7 +19,7 @@ function newRidgeState(iv, o) {
             return () => {
                 sb = sb.filter((f) => f !== ca);
             };
-        });
+        }, []);
     }
     function use() {
         let [l, sl] = R.useState(v);
