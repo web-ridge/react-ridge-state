@@ -180,6 +180,56 @@ async function setInitialState() {
 setInitialState();
 ```
 
+### Managing complex/nested state with Immer
+
+Sometimes you might need to update values that are deeply nested, code for this can end up looking verbose as you will likely need to use many spread operators. A small utility library called [Immer](https://github.com/immerjs/immer) can help simplify things.
+
+```tsx
+const characterState = newRidgeState<CharacterState>({
+  gold: 100,
+  stats: {
+    spells: {
+      fire: 10,
+      watter: 10
+    },
+    battle: {
+      health: 100,
+      mana: 100
+    },
+    profession: {
+      mining: 10,
+      herbalism: 10
+    }
+  }
+})
+
+// Update mana and herbalism without immer
+characterState.set(previous => {
+  ...previous,
+  stats: {
+    ...previous.stats,
+    battle: {
+      ...previous.stats.battle,
+      mana: 200
+    },
+    profession: {
+      ...previous.stats.profession,
+      herbalism: 20
+    }
+  }
+})
+
+// Update mana and herbalism using immer
+import { produce } from "immer";
+
+characterState.set(previous =>
+  produce(previous, updated => {
+    updated.stats.battle.mana = 200
+    updated.stats.profession.herbalism = 20
+  })
+)
+```
+
 ## About us
 
 We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.
