@@ -180,7 +180,7 @@ async function setInitialState() {
 setInitialState();
 ```
 
-### Managing complex/nested state
+### Managing complex/nested state with Immer
 
 Sometimes you might need to update values that are deeply nested, code for this can end up looking verbose as you will likely need to use many spread opperators. A small utility library called [Immer](https://github.com/immerjs/immer) can help simplify things.
 
