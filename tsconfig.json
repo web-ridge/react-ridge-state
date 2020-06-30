@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2015",
+    "target": "esnext",
     "declaration": true,
     "outDir": "./dist",
-
     "removeComments": true,
     "jsx": "react"
   },

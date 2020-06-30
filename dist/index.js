@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newRidgeState = void 0;
 const R = require("react");
+let uS = R.useState;
 function newRidgeState(iv, o) {
     let sb = [];
     let v = iv;
@@ -13,38 +14,32 @@ function newRidgeState(iv, o) {
             o && o.onSet && o.onSet(v);
         });
     }
-    function subscribe(ca) {
+    function sub(ca) {
         R.useEffect(() => {
             sb.push(ca);
             return () => {
                 sb = sb.filter((f) => f !== ca);
             };
-        }, []);
+        }, [ca]);
     }
     function use() {
-        let [l, sl] = R.useState(v);
-        subscribe(sl);
-        let c = R.useCallback((ns, ca) => set(ns, ca), [sl]);
-        return [l, c];
+        let [l, s] = R.useState(v);
+        sub(s);
+        return [l, set];
     }
-    function useValue() {
-        let [l, sl] = R.useState(v);
-        subscribe(sl);
-        return l;
-    }
-    function useSelector(selector, eq = (a, b) => a === b) {
-        let [l, sl] = R.useState(selector(v));
+    function useSelector(se, eq = (a, b) => a === b) {
+        let [l, s] = R.useState(se(v));
         let c = R.useCallback((ns) => {
-            let n = selector(ns);
-            !eq(l, n) && sl(n);
-        }, [sl]);
-        subscribe(c);
+            let n = se(ns);
+            !eq(l, n) && s(n);
+        }, [l]);
+        sub(c);
         return l;
     }
     return {
         use,
         useSelector,
-        useValue,
+        useValue: () => use()[0],
         get: () => v,
         set,
     };

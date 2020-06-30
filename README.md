@@ -2,7 +2,7 @@
 
 ![Bundle Size](https://badgen.net/bundlephobia/minzip/react-ridge-state) [![npm version](https://badge.fury.io/js/react-ridge-state.svg)](https://badge.fury.io/js/react-ridge-state) ![npm](https://img.shields.io/npm/dt/react-ridge-state.svg)
 
-**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (500 bytes) global state management for React which can be used outside of a React component too!
+**Simple** :muscle: **fast** ⚡️ and **small** :balloon: (400 bytes) global state management for React which can be used outside of a React component too!
 
 ```
 yarn add react-ridge-state
@@ -23,7 +23,7 @@ We were frustrated that the current solutions could often only be used from Reac
 - React / React Native
 - Simple
 - Fast
-- Very tiny (500 bytes)
+- Very tiny (400 bytes)
 - 100% Typesafe
 - Hooks
 - Use outside React components

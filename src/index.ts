@@ -1,5 +1,5 @@
 import * as R from "react";
-
+let uS = R.useState;
 interface StateWithValue<T> {
   use: () => [
     T,
@@ -8,7 +8,7 @@ interface StateWithValue<T> {
   useValue: () => T;
   get: () => T;
   useSelector: <TSelected = unknown>(
-    selector?: (state: T) => TSelected,
+    selector: (state: T) => TSelected,
     equalityFn?: (left: TSelected, right: TSelected) => boolean
   ) => TSelected;
   set: (
@@ -38,7 +38,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
 
     // let subscribers know value did change async
     setTimeout(() => {
-      // call subscribers which are not the caller
+      // call subscribers
       sb.forEach((c: any) => c(v));
 
       // callback after state is set
@@ -50,7 +50,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   }
 
   // subscribe hook
-  function subscribe(ca: SubscriberFunc<T>) {
+  function sub(ca: SubscriberFunc<T>) {
     R.useEffect(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
@@ -58,7 +58,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       return () => {
         sb = sb.filter((f) => f !== ca);
       };
-    }, []);
+    }, [ca]);
   }
 
   // use hook
@@ -70,45 +70,36 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       ca?: (ns: T) => any
     ) => any
   ] {
-    let [l, sl] = R.useState<T>(v);
+    let [l, s] = R.useState<T>(v);
 
     // subscribe to external changes
-    subscribe(sl);
+    sub(s);
 
-    // notify external subscribers and components
-    let c = R.useCallback((ns, ca) => set(ns, ca), [sl]);
-    return [l, c];
-  }
-
-  // use value
-  function useValue(): T {
-    let [l, sl] = R.useState<T>(v);
-    // subscribe to external changes
-    subscribe(sl);
-    return l;
+    // set callback
+    return [l, set];
   }
 
   // select hook
   function useSelector<TSelected = unknown>(
-    selector?: (state: T) => TSelected,
+    se: (state: T) => TSelected,
     eq = (a: TSelected, b: TSelected): boolean => a === b
   ): TSelected {
     // selected value
-    let [l, sl] = R.useState<TSelected>(selector(v));
+    let [l, s] = R.useState<TSelected>(se(v));
 
     let c = R.useCallback(
       (ns: T) => {
         // select new value
-        let n = selector(ns);
+        let n = se(ns);
 
-        // if not equal let's update
-        !eq(l, n) && sl(n);
+        // if not equal => update
+        !eq(l, n) && s(n);
       },
-      [sl]
+      [l]
     );
 
     // subscribe to changed and call c with the new state if changed
-    subscribe(c);
+    sub(c);
 
     return l;
   }
@@ -116,7 +107,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   return {
     use,
     useSelector,
-    useValue,
+    useValue: () => use()[0],
     get: () => v,
     set,
   };
