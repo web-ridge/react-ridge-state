@@ -1,5 +1,4 @@
 import * as R from "react";
-let uS = R.useState;
 interface StateWithValue<T> {
   use: () => [
     T,

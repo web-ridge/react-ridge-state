@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.newRidgeState = void 0;
 const R = require("react");
-let uS = R.useState;
 function newRidgeState(iv, o) {
     let sb = [];
     let v = iv;
