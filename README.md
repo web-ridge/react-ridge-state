@@ -27,9 +27,6 @@ We were frustrated that the current solutions could often only be used from Reac
 - 100% Typesafe
 - Hooks
 - Use outside React components
-
-## Roadmap :running_woman: :running_man:
-
 - Custom selectors for deep state selecting
 
 ## Getting started :clap: :ok_hand:
