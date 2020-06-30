@@ -188,6 +188,10 @@ Sometimes you might need to update values that are deeply nested, code for this 
 const characterState = newRidgeState<CharacterState>({
   gold: 100,
   stats: {
+    spells: {
+      fire: 10,
+      watter: 10
+    },
     battle: {
       health: 100,
       mana: 100
