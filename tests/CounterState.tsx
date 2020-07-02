@@ -1,4 +1,4 @@
-import { newRidgeState } from "../index";
+import { newRidgeState } from "../src";
 
 export const globalCounterState = newRidgeState<number>(0, {
   onSet: async (newState) => {

@@ -41,6 +41,7 @@ function newRidgeState(iv, o) {
         useValue: () => use()[0],
         get: () => v,
         set,
+        reset: () => set(iv),
     };
 }
 exports.newRidgeState = newRidgeState;

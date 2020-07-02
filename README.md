@@ -67,7 +67,8 @@ const cartProducts = cartProductsState.useSelector(
 );
 ```
 
-### Outside of React
+### Supported functions outside of React
+The following functions work outside of React e.g. in your middleware but you can also use them in your component. (but these functions are not subscribed to changes)
 
 ```typescript
 import { cartProductsState } from "../cartProductsState";
@@ -91,6 +92,9 @@ cartProductsState.set(
     console.log("New state is rendered everywhere");
   }
 );
+
+// you can reset to initial state too
+cartProductsState.reset()
 ```
 
 ### Example
@@ -150,7 +154,8 @@ export default function YourComponent(props) {
 
 ### Persistence example
 
-It's possible to add persistency to your state, you can use every library you want. localStorage is even simpler since you don't need async functions.
+It's possible to add make your state persistent, you can use storage library you desire. 
+localStorage is even simpler since you don't need async functions
 
 ```typescript
 const authStorageKey = "auth";
@@ -204,7 +209,7 @@ const characterState = newRidgeState<CharacterState>({
 })
 
 // Update mana and herbalism without immer
-characterState.set(previous => {
+characterState.set(previous => ({
   ...previous,
   stats: {
     ...previous.stats,
@@ -217,7 +222,7 @@ characterState.set(previous => {
       herbalism: 20
     }
   }
-})
+}))
 
 // Update mana and herbalism using immer
 import { produce } from "immer";
@@ -237,13 +242,22 @@ You can find examples of testing components with global state here:
 https://github.com/web-ridge/react-ridge-state/blob/main/src/tests/Counter.test.tsx
 
 ### Jest
-Jest keeps the global state between different tests in one file. 
+Jest keeps the global state between tests in one file. 
 Tests inside one file run synchronous, so no racing can occur. 
    
 When testing in different files (test1.test.js, test2.test.js), the global state is new for every file. 
 You don't have to mock or reset the state even if the tests run in parallel.
 
+### Mocha
 
+In Mocha you will need to reset the state the initial value before each test since the state is shared across all tests.
+You could do that with the code below and **not** using the --parallel mode of Mocha.
+
+```tsx
+beforeEach(()=> {
+    characterState.reset()
+})
+```
 
 ## About us
 

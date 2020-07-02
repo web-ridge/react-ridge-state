@@ -1,5 +1,5 @@
 import * as React from "react";
-import { newRidgeState } from "../index";
+import { newRidgeState } from "../src";
 import { render, waitFor } from "@testing-library/react";
 
 interface DeepImage {

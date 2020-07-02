@@ -15,12 +15,14 @@ interface StateWithValue<T> {
     ac?: (newState: T) => any, // callback with the newState after state has been set
     ca?: (ns: T) => any // caller is used inside react components so we can we do faster updates to the caller
   ) => any;
+  reset: () => any;
 }
 
 type SubscriberFunc<T> = (newState: T) => any;
 
 interface Options<T> {
   onSet?: (newState: T) => any;
+  onInit: () => any;
 }
 
 export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
@@ -109,5 +111,6 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     useValue: () => use()[0],
     get: () => v,
     set,
+    reset: () => set(iv),
   };
 }

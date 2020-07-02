@@ -1,5 +1,5 @@
 import * as React from "react";
-import { newRidgeState } from "../index";
+import { newRidgeState } from "../src";
 import { getNodeText, render, waitFor } from "@testing-library/react";
 
 export interface RouterState {
