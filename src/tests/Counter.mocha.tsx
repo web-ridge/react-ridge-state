@@ -13,18 +13,6 @@ import { globalCounterState } from "./CounterState";
 const expectMocha = require("expect.js");
 require("jsdom-global")();
 
-//https://github.com/testing-library/react-testing-library/issues/141
-// const dom = new jsdom.JSDOM("<!doctype html><html><body></body></html>");
-//
-// global.window = dom.window;
-// global.document = dom.window.document;
-// global.navigator = dom.window.navigator;
-//
-// // new lines
-// global.Node = dom.window.Node;
-// require("mutationobserver-shim");
-// global.MutationObserver = global.window.MutationObserver;
-
 it("Both counters and global state change after click and global +", async () => {
   const counter = render(
     <>

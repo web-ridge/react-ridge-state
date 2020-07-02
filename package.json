@@ -9,7 +9,7 @@
   "readme": "README.md",
   "scripts": {
     "mocha": "mocha --parallel --jobs 100 -r jsdom-global/register -r ts-node/register src/tests/**/*.mocha.tsx",
-    "jest": "jest --maxWorkers=300"
+    "jest": "jest --maxWorkers=20"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.10.3",
