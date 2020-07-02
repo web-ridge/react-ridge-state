@@ -1,12 +1,6 @@
 import * as React from "react";
 import { newRidgeState } from "../index";
-import {
-  act,
-  fireEvent,
-  getNodeText,
-  render,
-  waitFor,
-} from "@testing-library/react";
+import { getNodeText, render, waitFor } from "@testing-library/react";
 
 export interface RouterState {
   page: "pageOne" | "pageTwo" | "pageThree";
