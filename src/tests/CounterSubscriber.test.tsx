@@ -10,7 +10,6 @@ import * as React from "react";
 import { globalCounterState } from "./CounterState";
 
 test("Test if unsubscribe works", async () => {
-  console.log("Test 2 start", +new Date());
   // test react hooks
   const counter = render(<CounterComponent />);
   const counter2 = render(<CounterViewer />);
@@ -44,5 +43,4 @@ test("Test if unsubscribe works", async () => {
 
   // test if state is saved in persistent state
   await waitFor(() => expect(JSON.parse(localStorage.getItem("@key"))).toBe(3));
-  console.log("Test 2 end", +new Date());
 });
