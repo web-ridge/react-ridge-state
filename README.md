@@ -230,6 +230,21 @@ characterState.set(previous =>
 )
 ```
 
+
+## Testing your components which use react-ridge-state
+
+You can find examples of testing components with global state here:
+https://github.com/web-ridge/react-ridge-state/blob/main/src/tests/Counter.test.tsx
+
+### Jest
+Jest keeps the global state between different tests in one file. 
+Tests inside one file run synchronous, so no racing can occur. 
+   
+When testing in different files (test1.test.js, test2.test.js), the global state is new for every file. 
+You don't have to mock or reset the state even if the tests run in parallel.
+
+
+
 ## About us
 
 We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.
