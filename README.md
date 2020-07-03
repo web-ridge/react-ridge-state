@@ -243,7 +243,7 @@ https://github.com/web-ridge/react-ridge-state/blob/main/src/tests/Counter.test.
 
 ### Jest
 Jest keeps the global state between tests in one file. 
-Tests inside one file run synchronous, so no racing can occur. 
+Tests inside one file run synchronous by default, so no racing can occur. 
    
 When testing in different files (test1.test.js, test2.test.js), the global state is new for every file. 
 You don't have to mock or reset the state even if the tests run in parallel.
