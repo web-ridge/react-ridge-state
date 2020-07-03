@@ -264,3 +264,6 @@ beforeEach(()=> {
 We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.
 
 Checkout our other products too! :ok_hand: https://github.com/web-ridge
+
+- Easy translations in React / React Native -> https://github.com/web-ridge/react-ridge-translations
+
