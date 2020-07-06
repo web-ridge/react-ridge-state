@@ -265,5 +265,5 @@ We want developers to be able to build software faster using modern tools like G
 
 Checkout our other products too! :ok_hand: https://github.com/web-ridge
 
-- Easy translations in React / React Native -> https://github.com/web-ridge/react-ridge-translations
+Easy translations in React / React Native -> https://github.com/web-ridge/react-ridge-translations
 
