@@ -261,7 +261,7 @@ beforeEach(()=> {
 
 ## About us
 
-We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native without depending on commercial providers like Firebase or AWS Amplify.
+We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native.
 
 Checkout our other products too! :ok_hand: https://github.com/web-ridge
 
