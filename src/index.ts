@@ -22,7 +22,6 @@ type SubscriberFunc<T> = (newState: T) => any;
 
 interface Options<T> {
   onSet?: (newState: T) => any;
-  onInit: () => any;
 }
 
 export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {

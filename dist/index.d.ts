@@ -8,7 +8,6 @@ interface StateWithValue<T> {
 }
 interface Options<T> {
     onSet?: (newState: T) => any;
-    onInit: () => any;
 }
 export declare function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T>;
 export {};
