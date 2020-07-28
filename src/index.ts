@@ -1,5 +1,5 @@
 import * as R from "react";
-interface StateWithValue<T> {
+export interface StateWithValue<T> {
   use: () => [
     T,
     (newState: T | ((prev: T) => T), ac?: (newState: T) => any) => any
