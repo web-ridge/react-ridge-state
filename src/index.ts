@@ -1,4 +1,7 @@
 import * as R from "react";
+
+type UnsubscribeFunc = () => void;
+
 export interface StateWithValue<T> {
   use: () => [
     T,
@@ -16,7 +19,10 @@ export interface StateWithValue<T> {
     ca?: (ns: T) => any // caller is used inside react components so we can we do faster updates to the caller
   ) => any;
   reset: () => any;
+  subscribe: (ca: SubscriberFunc<T>) => UnsubscribeFunc;
 }
+
+export type ComputedRidgeState<T> = Omit<StateWithValue<T>, 'use' | 'set' | 'reset'>;
 
 type SubscriberFunc<T> = (newState: T) => any;
 
@@ -36,11 +42,11 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     // support previous as argument to new value
     v = (ns instanceof Function ? ns(v) : ns) as T;
 
+    // call subscribers
+    sb.forEach((c: any) => c(v));
+
     // let subscribers know value did change async
     setTimeout(() => {
-      // call subscribers
-      sb.forEach((c: any) => c(v));
-
       // callback after state is set
       ac && ac(v);
 
@@ -49,15 +55,22 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     });
   }
 
+  function subscribe(ca: SubscriberFunc<T>) {
+    sb.push(ca);
+
+    return () => {
+      sb = sb.filter((f) => f !== ca);
+    };
+  }
+
   // subscribe hook
   function sub(ca: SubscriberFunc<T>) {
     R.useEffect(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
-      sb.push(ca);
-      return () => {
-        sb = sb.filter((f) => f !== ca);
-      };
+      const unsubscribe = subscribe(ca);
+
+      return unsubscribe;
     }, [ca]);
   }
 
@@ -111,5 +124,24 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     get: () => v,
     set,
     reset: () => set(iv),
+    subscribe,
+  };
+}
+
+export function computedRidgeState<T, V>(
+  state: ComputedRidgeState<T>,
+  cb: (prev: T) => V
+): ComputedRidgeState<V> {
+  const computedValue = newRidgeState(cb(state.get()));
+
+  state.subscribe((newValue) => {
+    computedValue.set(cb(newValue));
+  });
+
+  return {
+    get: computedValue.get,
+    useSelector: computedValue.useSelector,
+    useValue: computedValue.useValue,
+    subscribe: computedValue.subscribe,
   };
 }
