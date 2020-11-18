@@ -15,7 +15,7 @@ function factorial(num: number) {
 const counterState = newRidgeState(0);
 const factorialState = computedRidgeState(counterState, factorial);
 
-it('Test if global state is not shared between files in Mocha', async () => {
+it('Computed value has the correct value in Mocha', async () => {
   expectMocha(factorialState.get()).to.be(1);
   counterState.set(1);
   expectMocha(factorialState.get()).to.be(1);
