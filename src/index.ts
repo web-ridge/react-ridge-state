@@ -21,7 +21,7 @@ export interface StateWithValue<T> {
 type SubscriberFunc<T> = (newState: T) => any;
 
 interface Options<T> {
-  onSet?: (newState: T) => any;
+  onSet?: (newState: T, prevState: T) => any;
 }
 
 export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
@@ -33,6 +33,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
 
   // set function
   function set(ns: T | ((prev: T) => T), ac?: (ns: T) => any) {
+    let pv = v;
     // support previous as argument to new value
     v = (ns instanceof Function ? ns(v) : ns) as T;
 
@@ -45,7 +46,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       ac && ac(v);
 
       // let options function know when state has been set
-      o && o.onSet && o.onSet(v);
+      o && o.onSet && o.onSet(v, pv);
     });
   }
 
@@ -87,16 +88,13 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     // selected value
     let [l, s] = R.useState<TSelected>(se(v));
 
-    let c = R.useCallback(
-      (ns: T) => {
-        // select new value
-        let n = se(ns);
+    let c = (ns: T) => {
+      // select new value
+      let n = se(ns);
 
-        // if not equal => update
-        !eq(l, n) && s(n);
-      },
-      [l]
-    );
+      // if not equal => update
+      !eq(l, n) && s(n);
+    };
 
     // subscribe to changed and call c with the new state if changed
     sub(c);

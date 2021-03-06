@@ -7,7 +7,7 @@ export interface StateWithValue<T> {
     reset: () => any;
 }
 interface Options<T> {
-    onSet?: (newState: T) => any;
+    onSet?: (newState: T, prevState: T) => any;
 }
 export declare function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T>;
 export {};

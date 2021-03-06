@@ -6,11 +6,12 @@ function newRidgeState(iv, o) {
     let sb = [];
     let v = iv;
     function set(ns, ac) {
+        let pv = v;
         v = (ns instanceof Function ? ns(v) : ns);
         setTimeout(() => {
             sb.forEach((c) => c(v));
             ac && ac(v);
-            o && o.onSet && o.onSet(v);
+            o && o.onSet && o.onSet(v, pv);
         });
     }
     function sub(ca) {
@@ -28,10 +29,10 @@ function newRidgeState(iv, o) {
     }
     function useSelector(se, eq = (a, b) => a === b) {
         let [l, s] = R.useState(se(v));
-        let c = R.useCallback((ns) => {
+        let c = (ns) => {
             let n = se(ns);
             !eq(l, n) && s(n);
-        }, [l]);
+        };
         sub(c);
         return l;
     }
