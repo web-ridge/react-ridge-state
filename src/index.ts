@@ -1,4 +1,6 @@
 import * as R from "react";
+import e from './e'
+
 export interface StateWithValue<T> {
   use: () => [
     T,
@@ -51,15 +53,16 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   }
 
   // subscribe hook
-  function sub(ca: SubscriberFunc<T>) {
-    R.useEffect(() => {
+  function sub(c: SubscriberFunc<T>) {
+    // subscribe effect
+    e(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
-      sb.push(ca);
+      sb.push(c);
       return () => {
-        sb = sb.filter((f) => f !== ca);
+        sb = sb.filter((f) => f !== c);
       };
-    }, [ca]);
+    }, [c]);
   }
 
   // use hook
@@ -88,15 +91,24 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     // selected value
     let [l, s] = R.useState<TSelected>(se(v));
 
-    let c = (ns: T) => {
-      // select new value
-      let n = se(ns);
+    let c = R.useCallback(
+      (ns: T) => {
+        // select new value
+        let n = se(ns);
+        // if not equal => update
+        if (!eq(l, n)) {
+          s(n);
+        }
+      },
+      [s, se]
+    );
 
-      // if not equal => update
-      !eq(l, n) && s(n);
-    };
+    // run every render because of props closures
+    e(() => {
+      c(v);
+    });
 
-    // subscribe to changed and call c with the new state if changed
+    // run on state change
     sub(c);
 
     return l;
@@ -108,6 +120,6 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     useValue: () => use()[0],
     get: () => v,
     set,
-    reset: () => set(iv),
+    reset: () => set(iv)
   };
 }
