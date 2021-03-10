@@ -1,29 +1,49 @@
 import * as R from "react";
-import e from './e'
+import e from "./e";
 
 export interface StateWithValue<T> {
   use: () => [
     T,
-    (newState: T | ((prev: T) => T), ac?: (newState: T) => any) => any
+    (newState: T | ((prev: T) => T), ac?: (newState: T) => void) => void
   ];
   useValue: () => T;
   get: () => T;
   useSelector: <TSelected = unknown>(
     selector: (state: T) => TSelected,
-    equalityFn?: (left: TSelected, right: TSelected) => boolean
+    equalityFn?: Comparator<TSelected>
   ) => TSelected;
   set: (
     newState: T | ((prev: T) => T), // can be the newState or a function with prevState in params and which needs to return new state
-    ac?: (newState: T) => any, // callback with the newState after state has been set
-    ca?: (ns: T) => any // caller is used inside react components so we can we do faster updates to the caller
-  ) => any;
-  reset: () => any;
+    ac?: (newState: T) => void, // callback with the newState after state has been set
+    ca?: (ns: T) => void // caller is used inside react components so we can we do faster updates to the caller
+  ) => void;
+  reset: () => void;
 }
 
 type SubscriberFunc<T> = (newState: T) => any;
 
 interface Options<T> {
   onSet?: (newState: T, prevState: T) => any;
+}
+
+type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
+
+let equ: Comparator = (a, b) => a === b;
+
+let FR = {}; // an opaque value
+function me<T>(v: T, c: Comparator<T> = equ): T {
+  let f = R.useRef(FR as T);
+  let nv = f.current;
+
+  e(() => {
+    f.current = nv;
+  });
+
+  if (f.current === FR || !c(v, f.current)) {
+    nv = v;
+  }
+
+  return nv;
 }
 
 export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
@@ -86,32 +106,10 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   // select hook
   function useSelector<TSelected = unknown>(
     se: (state: T) => TSelected,
-    eq = (a: TSelected, b: TSelected): boolean => a === b
+    eq = equ as any
   ): TSelected {
-    // selected value
-    let [l, s] = R.useState<TSelected>(se(v));
-
-    let c = R.useCallback(
-      (ns: T) => {
-        // select new value
-        let n = se(ns);
-        // if not equal => update
-        if (!eq(l, n)) {
-          s(n);
-        }
-      },
-      [s, se]
-    );
-
-    // run every render because of props closures
-    e(() => {
-      c(v);
-    });
-
-    // run on state change
-    sub(c);
-
-    return l;
+    const [rv] = use();
+    return me(se(rv), eq);
   }
 
   return {
@@ -120,6 +118,6 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     useValue: () => use()[0],
     get: () => v,
     set,
-    reset: () => set(iv)
+    reset: () => set(iv),
   };
 }
