@@ -108,8 +108,12 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     se: (state: T) => TSelected,
     eq = equ as any
   ): TSelected {
-    const [rv] = use();
-    return me(se(rv), eq);
+    const [l, s] = R.useState<TSelected>();
+    sub((nv) => {
+      const v = se(nv);
+      if (!eq(v, l)) s(v);
+    });
+    return l;
   }
 
   return {
