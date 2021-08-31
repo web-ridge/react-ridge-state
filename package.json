@@ -14,7 +14,8 @@
     "build:tsc": "tsc",
     "build:esm": "npx esbuild ./src/* --outdir=dist/esm --minify --format=esm",
     "build:cjs": "tsc && npx esbuild ./src/* --outdir=dist/cjs --minify --format=cjs",
-    "build": "npm run build:tsc && npm run build:esm && npm run build:cjs"
+    "build": "npm run build:tsc && npm run build:esm && npm run build:cjs",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.13.10",
