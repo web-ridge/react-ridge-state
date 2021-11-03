@@ -87,10 +87,10 @@ export function newRidgeState<T>(
       sb.forEach((c) => c(v));
 
       // callback after state is set
-      callback && callback(v);
+      callback?.(v);
 
       // let options function know when state has been set
-      options && options.onSet && options.onSet(v, pv);
+      options?.onSet?.(v, pv);
     });
   }
 
