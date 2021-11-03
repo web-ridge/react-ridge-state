@@ -1,9 +1,15 @@
-import { useState, useRef, useLayoutEffect, useEffect } from "react";
+import {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useEffect,
+  SetStateAction,
+} from "react";
 
 export interface StateWithValue<T> {
   use: () => [
     T,
-    (newState: T | ((prev: T) => T), ac?: (newState: T) => void) => void
+    (newState: SetStateAction<T>, ac?: (newState: T) => void) => void
   ];
   useValue: () => T;
   get: () => T;
@@ -12,7 +18,7 @@ export interface StateWithValue<T> {
     equalityFn?: Comparator<TSelected>
   ) => TSelected;
   set: (
-    newState: T | ((prev: T) => T), // can be the newState or a function with prevState in params and which needs to return new state
+    newState: SetStateAction<T>, // can be the newState or a function with prevState in params and which needs to return new state
     callback?: (newState: T) => void, // callback with the newState after state has been set
     ca?: (ns: T) => void // caller is used inside react components so we can we do faster updates to the caller
   ) => void;
@@ -70,7 +76,7 @@ export function newRidgeState<T>(
   let v: T = initialValue;
 
   // set function
-  function set(newValue: T | ((prev: T) => T), callback?: (ns: T) => void) {
+  function set(newValue: SetStateAction<T>, callback?: (ns: T) => void) {
     const pv = v;
     // support previous as argument to new value
     v = newValue instanceof Function ? newValue(v) : newValue;
@@ -105,7 +111,7 @@ export function newRidgeState<T>(
   function use(): [
     T,
     (
-      newState: T | ((prev: T) => T),
+      newState: SetStateAction<T>,
       callback?: (newState: T) => any,
       ca?: (ns: T) => any
     ) => void
