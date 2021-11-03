@@ -1,4 +1,4 @@
-import * as R from "react";
+import { useState, useRef } from "react";
 import e from "./e";
 
 export interface StateWithValue<T> {
@@ -20,19 +20,19 @@ export interface StateWithValue<T> {
   reset: () => void;
 }
 
-type SubscriberFunc<T> = (newState: T) => any;
+type SubscriberFunc<T> = (newState: T) => void;
 
 interface Options<T> {
-  onSet?: (newState: T, prevState: T) => any;
+  onSet?: (newState: T, prevState: T) => void;
 }
 
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 
-let equ: Comparator = (a, b) => a === b;
+const equ: Comparator = (a, b) => a === b;
 
-let FR = {}; // an opaque value
-function me<T>(v: T, c: Comparator<T> = equ): T {
-  let f = R.useRef(FR as T);
+const FR = {}; // an opaque value
+function useComparator<T>(v: T, c: Comparator<T> = equ): T {
+  const f = useRef(FR as T);
   let nv = f.current;
 
   e(() => {
@@ -54,15 +54,15 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   let v: T = iv;
 
   // set function
-  function set(ns: T | ((prev: T) => T), ac?: (ns: T) => any) {
-    let pv = v;
+  function set(ns: T | ((prev: T) => T), ac?: (ns: T) => void) {
+    const pv = v;
     // support previous as argument to new value
     v = (ns instanceof Function ? ns(v) : ns) as T;
 
     // let subscribers know value did change async
     setTimeout(() => {
       // call subscribers
-      sb.forEach((c: any) => c(v));
+      sb.forEach((c) => c(v));
 
       // callback after state is set
       ac && ac(v);
@@ -90,11 +90,12 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     T,
     (
       newState: T | ((prev: T) => T),
-      ac?: (newState: T) => any,
-      ca?: (ns: T) => any
-    ) => any
+      ac?: (newState: T) => void,
+      ca?: (ns: T) => void
+    ) => void
   ] {
-    let [l, s] = R.useState<T>(v);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [l, s] = useState<T>(v);
 
     // subscribe to external changes
     sub(s);
@@ -106,10 +107,10 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   // select hook
   function useSelector<TSelected = unknown>(
     se: (state: T) => TSelected,
-    eq = equ as any
+    eq: Comparator<TSelected> = equ
   ): TSelected {
     const [rv] = use();
-    return me(se(rv), eq);
+    return useComparator(se(rv), eq);
   }
 
   return {
