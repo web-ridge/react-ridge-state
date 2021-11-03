@@ -6,21 +6,22 @@ import {
   SetStateAction,
 } from "react";
 
+type Set<T> = (
+  newState: SetStateAction<T>, // can be the newState or a function with prevState in params and which needs to return new state
+  callback?: (newState: T) => void // callback with the newState after state has been set
+) => void;
+
+type UseSelector<T> = <TSelected = unknown>(
+  selector: (state: T) => TSelected,
+  equalityFn?: Comparator<TSelected>
+) => TSelected;
+
 export interface StateWithValue<T> {
-  use: () => [
-    T,
-    (newState: SetStateAction<T>, ac?: (newState: T) => void) => void
-  ];
+  use: () => [T, Set<T>];
   useValue: () => T;
   get: () => T;
-  useSelector: <TSelected = unknown>(
-    selector: (state: T) => TSelected,
-    equalityFn?: Comparator<TSelected>
-  ) => TSelected;
-  set: (
-    newState: SetStateAction<T>, // can be the newState or a function with prevState in params and which needs to return new state
-    callback?: (newState: T) => void // callback with the newState after state has been set
-  ) => void;
+  useSelector: UseSelector<T>;
+  set: Set<T>;
   reset: () => void;
 }
 
@@ -107,10 +108,7 @@ export function newRidgeState<T>(
   }
 
   // use hook
-  function use(): [
-    T,
-    (newState: SetStateAction<T>, callback?: (newState: T) => void) => void
-  ] {
+  function use(): [T, Set<T>] {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [l, s] = useState<T>(v);
 
