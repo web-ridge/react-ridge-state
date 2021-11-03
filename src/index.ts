@@ -57,7 +57,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   function set(ns: T | ((prev: T) => T), ac?: (ns: T) => void) {
     const pv = v;
     // support previous as argument to new value
-    v = (ns instanceof Function ? ns(v) : ns) as T;
+    v = (ns instanceof Function ? ns(v) : ns);
 
     // let subscribers know value did change async
     setTimeout(() => {
