@@ -1,10 +1,14 @@
 {
-  "plugins": [
-    "react-hooks"
-  ],
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "prettier"
   ]
-
 }
