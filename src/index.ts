@@ -1,4 +1,4 @@
-import * as R from "react";
+import { useState, useRef } from "react";
 import e from "./e";
 
 export interface StateWithValue<T> {
@@ -32,7 +32,7 @@ let equ: Comparator = (a, b) => a === b;
 
 let FR = {}; // an opaque value
 function me<T>(v: T, c: Comparator<T> = equ): T {
-  let f = R.useRef(FR as T);
+  let f = useRef(FR as T);
   let nv = f.current;
 
   e(() => {
@@ -94,7 +94,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       ca?: (ns: T) => any
     ) => any
   ] {
-    let [l, s] = R.useState<T>(v);
+    let [l, s] = useState<T>(v);
 
     // subscribe to external changes
     sub(s);
