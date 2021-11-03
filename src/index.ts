@@ -1,5 +1,4 @@
-import { useState, useRef } from "react";
-import e from "./e";
+import { useState, useRef, useLayoutEffect, useEffect } from "react";
 
 export interface StateWithValue<T> {
   use: () => [
@@ -28,6 +27,20 @@ interface Options<T> {
 
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 
+// React currently throws a warning when using useLayoutEffect on the server.
+// To get around it, we can conditionally useEffect on the server (no-op) and
+// useLayoutEffect in the browser. We need useLayoutEffect to ensure the store
+// subscription callback always has the selector from the latest render commit
+// available, otherwise a store update may happen between render and the effect,
+// which may cause missed updates; we also must ensure the store subscription
+// is created synchronously, otherwise a store update may occur before the
+// subscription is created and an inconsistent state may be observed
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" || typeof document !== "undefined"
+    ? useLayoutEffect
+    : useEffect;
+
 const equ: Comparator = (a, b) => a === b;
 
 const FR = {}; // an opaque value
@@ -35,7 +48,7 @@ function useComparator<T>(v: T, c: Comparator<T> = equ): T {
   const f = useRef(FR as T);
   let nv = f.current;
 
-  e(() => {
+  useIsomorphicLayoutEffect(() => {
     f.current = nv;
   });
 
@@ -57,7 +70,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   function set(ns: T | ((prev: T) => T), ac?: (ns: T) => void) {
     const pv = v;
     // support previous as argument to new value
-    v = (ns instanceof Function ? ns(v) : ns);
+    v = ns instanceof Function ? ns(v) : ns;
 
     // let subscribers know value did change async
     setTimeout(() => {
@@ -75,7 +88,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   // subscribe hook
   function sub(c: SubscriberFunc<T>) {
     // subscribe effect
-    e(() => {
+    useIsomorphicLayoutEffect(() => {
       // update local state only if it has not changed already
       // so this state will be updated if it was called outside of this hook
       sb.push(c);
