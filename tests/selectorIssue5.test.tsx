@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import * as React from "react";
 import { newRidgeState } from "../src";
 import { getNodeText, render, waitFor } from "@testing-library/react";
