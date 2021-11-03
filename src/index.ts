@@ -31,7 +31,7 @@ type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 const equ: Comparator = (a, b) => a === b;
 
 const FR = {}; // an opaque value
-function me<T>(v: T, c: Comparator<T> = equ): T {
+function useComparator<T>(v: T, c: Comparator<T> = equ): T {
   const f = useRef(FR as T);
   let nv = f.current;
 
@@ -94,6 +94,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       ca?: (ns: T) => void
     ) => void
   ] {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [l, s] = useState<T>(v);
 
     // subscribe to external changes
@@ -109,7 +110,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     eq: Comparator<TSelected> = equ
   ): TSelected {
     const [rv] = use();
-    return me(se(rv), eq);
+    return useComparator(se(rv), eq);
   }
 
   return {
