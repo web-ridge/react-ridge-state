@@ -20,10 +20,10 @@ export interface StateWithValue<T> {
   reset: () => void;
 }
 
-type SubscriberFunc<T> = (newState: T) => any;
+type SubscriberFunc<T> = (newState: T) => void;
 
 interface Options<T> {
-  onSet?: (newState: T, prevState: T) => any;
+  onSet?: (newState: T, prevState: T) => void;
 }
 
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
@@ -54,7 +54,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   let v: T = iv;
 
   // set function
-  function set(ns: T | ((prev: T) => T), ac?: (ns: T) => any) {
+  function set(ns: T | ((prev: T) => T), ac?: (ns: T) => void) {
     const pv = v;
     // support previous as argument to new value
     v = (ns instanceof Function ? ns(v) : ns) as T;
@@ -62,7 +62,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     // let subscribers know value did change async
     setTimeout(() => {
       // call subscribers
-      sb.forEach((c: any) => c(v));
+      sb.forEach((c) => c(v));
 
       // callback after state is set
       ac && ac(v);
@@ -90,9 +90,9 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
     T,
     (
       newState: T | ((prev: T) => T),
-      ac?: (newState: T) => any,
-      ca?: (ns: T) => any
-    ) => any
+      ac?: (newState: T) => void,
+      ca?: (ns: T) => void
+    ) => void
   ] {
     const [l, s] = useState<T>(v);
 
@@ -106,7 +106,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
   // select hook
   function useSelector<TSelected = unknown>(
     se: (state: T) => TSelected,
-    eq = equ as any
+    eq: Comparator<TSelected> = equ
   ): TSelected {
     const [rv] = use();
     return me(se(rv), eq);
