@@ -19,8 +19,7 @@ export interface StateWithValue<T> {
   ) => TSelected;
   set: (
     newState: SetStateAction<T>, // can be the newState or a function with prevState in params and which needs to return new state
-    callback?: (newState: T) => void, // callback with the newState after state has been set
-    ca?: (ns: T) => void // caller is used inside react components so we can we do faster updates to the caller
+    callback?: (newState: T) => void // callback with the newState after state has been set
   ) => void;
   reset: () => void;
 }
@@ -110,11 +109,7 @@ export function newRidgeState<T>(
   // use hook
   function use(): [
     T,
-    (
-      newState: SetStateAction<T>,
-      callback?: (newState: T) => any,
-      ca?: (ns: T) => any
-    ) => void
+    (newState: SetStateAction<T>, callback?: (newState: T) => void) => void
   ] {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [l, s] = useState<T>(v);
