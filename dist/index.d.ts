@@ -10,7 +10,7 @@ export interface StateWithValue<T> {
     reset: () => void;
 }
 interface Options<T> {
-    onSet?: (newState: T, prevState: T) => any;
+    onSet?: (newState: T, prevState: T) => void;
 }
 declare type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 export declare function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T>;
