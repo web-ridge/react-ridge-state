@@ -9,9 +9,8 @@ import * as R from "react";
 // is created synchronously, otherwise a store update may occur before the
 // subscription is created and an inconsistent state may be observed
 
-export default 
-  typeof window !== 'undefined' &&
-  typeof window.document !== 'undefined' &&
-  typeof window.document.createElement !== 'undefined'
-    ? R.useLayoutEffect
-    : R.useEffect
+export default typeof window !== "undefined" &&
+typeof window.document !== "undefined" &&
+typeof window.document.createElement !== "undefined"
+  ? R.useLayoutEffect
+  : R.useEffect;
