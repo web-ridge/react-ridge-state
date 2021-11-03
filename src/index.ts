@@ -28,11 +28,11 @@ interface Options<T> {
 
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 
-let equ: Comparator = (a, b) => a === b;
+const equ: Comparator = (a, b) => a === b;
 
-let FR = {}; // an opaque value
+const FR = {}; // an opaque value
 function me<T>(v: T, c: Comparator<T> = equ): T {
-  let f = useRef(FR as T);
+  const f = useRef(FR as T);
   let nv = f.current;
 
   e(() => {
@@ -55,7 +55,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
 
   // set function
   function set(ns: T | ((prev: T) => T), ac?: (ns: T) => any) {
-    let pv = v;
+    const pv = v;
     // support previous as argument to new value
     v = (ns instanceof Function ? ns(v) : ns) as T;
 
@@ -94,7 +94,7 @@ export function newRidgeState<T>(iv: T, o?: Options<T>): StateWithValue<T> {
       ca?: (ns: T) => any
     ) => any
   ] {
-    let [l, s] = useState<T>(v);
+    const [l, s] = useState<T>(v);
 
     // subscribe to external changes
     sub(s);
