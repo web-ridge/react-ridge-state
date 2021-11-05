@@ -98,8 +98,6 @@ export function newRidgeState<T>(
   function useSubscription(subscriber: SubscriberFunc<T>) {
     // subscribe effect
     useIsomorphicLayoutEffect(() => {
-      // update local state only if it has not changed already
-      // so this state will be updated if it was called outside of this hook
       sb.push(subscriber);
       return () => {
         sb = sb.filter((f) => f !== subscriber);
