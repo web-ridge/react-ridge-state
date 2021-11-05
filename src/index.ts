@@ -25,10 +25,10 @@ export interface StateWithValue<T> {
   reset: () => void;
 }
 
-type SubscriberFunc<T> = (newState: T) => void;
+type SubscriberFunc<T> = (newState: T, previousState: T) => void;
 
 interface Options<T> {
-  onSet?: (newState: T, prevState: T) => void;
+  onSet?: SubscriberFunc<T>;
 }
 
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
@@ -76,7 +76,7 @@ export function newRidgeState<T>(
   let v: T = initialValue;
 
   // set function
-  function set(newValue: SetStateAction<T>, callback?: (ns: T) => void) {
+  function set(newValue: SetStateAction<T>, callback?: SubscriberFunc<T>) {
     const pv = v;
     // support previous as argument to new value
     v = newValue instanceof Function ? newValue(v) : newValue;
@@ -84,10 +84,10 @@ export function newRidgeState<T>(
     // let subscribers know value did change async
     setTimeout(() => {
       // call subscribers
-      sb.forEach((c) => c(v));
+      sb.forEach((c) => c(v, pv));
 
       // callback after state is set
-      callback?.(v);
+      callback?.(v, pv);
 
       // let options function know when state has been set
       options?.onSet?.(v, pv);
