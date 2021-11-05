@@ -8,9 +8,11 @@ export interface StateWithValue<T> {
     useSelector: UseSelector<T>;
     set: Set<T>;
     reset: () => void;
+    subscribe(subscriber: SubscriberFunc<T>): () => void;
 }
+declare type SubscriberFunc<T> = (newState: T, previousState: T) => void;
 interface Options<T> {
-    onSet?: (newState: T, prevState: T) => void;
+    onSet?: SubscriberFunc<T>;
 }
 declare type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
 export declare function newRidgeState<T>(initialValue: T, options?: Options<T>): StateWithValue<T>;
