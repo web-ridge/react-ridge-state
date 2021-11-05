@@ -23,6 +23,7 @@ export interface StateWithValue<T> {
   useSelector: UseSelector<T>;
   set: Set<T>;
   reset: () => void;
+  subscribe(subscriber: SubscriberFunc<T>): () => void;
 }
 
 type SubscriberFunc<T> = (newState: T, previousState: T) => void;
@@ -94,15 +95,18 @@ export function newRidgeState<T>(
     });
   }
 
+  // subscribe function; returns unsubscriber function
+  function subscribe(subscriber: SubscriberFunc<T>): () => void {
+    sb.push(subscriber);
+    return () => {
+      sb = sb.filter((f) => f !== subscriber);
+    };
+  }
+
   // subscribe hook
   function useSubscription(subscriber: SubscriberFunc<T>) {
     // subscribe effect
-    useIsomorphicLayoutEffect(() => {
-      sb.push(subscriber);
-      return () => {
-        sb = sb.filter((f) => f !== subscriber);
-      };
-    }, [subscriber]);
+    useIsomorphicLayoutEffect(() => subscribe(subscriber), [subscriber]);
   }
 
   // use hook
@@ -134,5 +138,6 @@ export function newRidgeState<T>(
     get: () => v,
     set,
     reset: () => set(initialValue),
+    subscribe,
   };
 }

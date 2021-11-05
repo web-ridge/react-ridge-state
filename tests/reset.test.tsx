@@ -1,17 +1,7 @@
-import { newRidgeState } from "../src";
-
-interface Product {
-  id: string;
-  name: string;
-}
-
-const defaultState = {
-  id: "1",
-  name: "Test",
-};
-const productState = newRidgeState<Product>(defaultState);
+import { defaultState, newProductState } from "./ProductState";
 
 test("Test if reset works", () => {
+  const productState = newProductState();
   const newState = {
     id: "2",
     name: "Test2",
