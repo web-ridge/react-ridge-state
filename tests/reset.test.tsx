@@ -4,13 +4,14 @@ interface Product {
   id: string;
   name: string;
 }
+
 const defaultState = {
   id: "1",
   name: "Test",
 };
 const productState = newRidgeState<Product>(defaultState);
 
-test("Test if reset works", async () => {
+test("Test if reset works", () => {
   const newState = {
     id: "2",
     name: "Test2",
