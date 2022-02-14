@@ -23,12 +23,13 @@ export interface StateWithValue<T> {
   useSelector: UseSelector<T>;
   set: Set<T>;
   reset: () => void;
+  subscribe(subscriber: SubscriberFunc<T>): () => void;
 }
 
-type SubscriberFunc<T> = (newState: T) => void;
+type SubscriberFunc<T> = (newState: T, previousState: T) => void;
 
 interface Options<T> {
-  onSet?: (newState: T, prevState: T) => void;
+  onSet?: SubscriberFunc<T>;
 }
 
 type Comparator<TSelected = unknown> = (a: TSelected, b: TSelected) => boolean;
@@ -76,7 +77,7 @@ export function newRidgeState<T>(
   let v: T = initialValue;
 
   // set function
-  function set(newValue: SetStateAction<T>, callback?: (ns: T) => void) {
+  function set(newValue: SetStateAction<T>, callback?: SubscriberFunc<T>) {
     const pv = v;
     // support previous as argument to new value
     v = newValue instanceof Function ? newValue(v) : newValue;
@@ -84,27 +85,28 @@ export function newRidgeState<T>(
     // let subscribers know value did change async
     setTimeout(() => {
       // call subscribers
-      sb.forEach((c) => c(v));
+      sb.forEach((c) => c(v, pv));
 
       // callback after state is set
-      callback?.(v);
+      callback?.(v, pv);
 
       // let options function know when state has been set
       options?.onSet?.(v, pv);
     });
   }
 
+  // subscribe function; returns unsubscriber function
+  function subscribe(subscriber: SubscriberFunc<T>): () => void {
+    sb.push(subscriber);
+    return () => {
+      sb = sb.filter((f) => f !== subscriber);
+    };
+  }
+
   // subscribe hook
   function useSubscription(subscriber: SubscriberFunc<T>) {
     // subscribe effect
-    useIsomorphicLayoutEffect(() => {
-      // update local state only if it has not changed already
-      // so this state will be updated if it was called outside of this hook
-      sb.push(subscriber);
-      return () => {
-        sb = sb.filter((f) => f !== subscriber);
-      };
-    }, [subscriber]);
+    useIsomorphicLayoutEffect(() => subscribe(subscriber), [subscriber]);
   }
 
   // use hook
@@ -136,5 +138,6 @@ export function newRidgeState<T>(
     get: () => v,
     set,
     reset: () => set(initialValue),
+    subscribe,
   };
 }

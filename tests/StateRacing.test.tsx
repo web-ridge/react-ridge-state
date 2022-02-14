@@ -22,11 +22,11 @@ test("Test if global state is not shared between files in Jest", async () => {
   globalCounterState.set((prev) => prev + 1);
   expect(globalCounterState.get()).toBe(5);
 });
-function getRndInteger(min, max) {
+
+function getRndInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
-function sleeper(ms) {
-  return function (x) {
-    return new Promise((resolve) => setTimeout(() => resolve(x), ms));
-  };
+
+function sleeper(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

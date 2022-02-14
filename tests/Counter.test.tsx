@@ -1,5 +1,4 @@
 import {
-  act,
   fireEvent,
   getNodeText,
   render,
@@ -7,6 +6,7 @@ import {
 } from "@testing-library/react";
 import { CounterComponent, CounterViewer } from "./Counter";
 import * as React from "react";
+import { act } from "react-dom/test-utils";
 
 test("Both counters and global state change after click and global +", async () => {
   const counters = render(

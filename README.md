@@ -81,7 +81,7 @@ const cartProducts = cartProductsState.useSelector(
 ```
 
 ### Supported functions outside of React
-The following functions work outside of React e.g. in your middleware but you can also use them in your component. (but these functions are not subscribed to changes)
+The following functions work outside of React e.g. in your middleware but you can also use them in your component.
 
 ```typescript
 import { cartProductsState } from "../cartProductsState";
@@ -108,6 +108,15 @@ cartProductsState.set(
 
 // you can reset to initial state too
 cartProductsState.reset()
+
+// you can also subscribe to state changes outside React
+
+const unsubscribe = cartProductsState.subscribe((newState, oldState) => {
+  console.log("State changed");
+});
+
+// call the returned unsubscribe function to unsubscribe.
+unsubscribe();
 ```
 
 ### Example
