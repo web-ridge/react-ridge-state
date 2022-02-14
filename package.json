@@ -11,7 +11,7 @@
   "scripts": {
     "mocha": "mocha -r jsdom-global/register -r ts-node/register tests/**/*.mocha.tsx",
     "test": "jest --maxWorkers=150",
-    "build": "tsc && esbuild ./src/* --outdir=dist --minify --target=es2019",
+    "build": "tsc && esbuild ./src/* --outdir=dist --minify --target=es2019,node12",
     "lint": "eslint src tests"
   },
   "devDependencies": {
