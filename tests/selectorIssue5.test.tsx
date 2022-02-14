@@ -6,7 +6,7 @@ export interface RouterState {
   page: "pageOne" | "pageTwo" | "pageThree";
 }
 
-const { set, useValue, useSelector } = newRidgeState<RouterState>({
+const { set, useSelector } = newRidgeState<RouterState>({
   page: "pageOne",
 });
 

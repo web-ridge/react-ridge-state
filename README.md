@@ -29,6 +29,19 @@ We were frustrated that the current solutions could often only be used from Reac
 - Use outside React components
 - Custom selectors for deep state selecting
 
+## About us
+We want developers to be able to build software faster using modern tools like GraphQL, Golang and React Native.
+
+Give us a follow on Twitter:
+[RichardLindhout](https://twitter.com/RichardLindhout),
+[web_ridge](https://twitter.com/web_ridge)
+
+## Donate
+Please contribute or donate so we can spend more time on this library
+
+[Donate with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7B9KKQLXTEW9Q&source=url)
+
+
 ## Getting started :clap: :ok_hand:
 
 ### Create a new state
@@ -68,7 +81,7 @@ const cartProducts = cartProductsState.useSelector(
 ```
 
 ### Supported functions outside of React
-The following functions work outside of React e.g. in your middleware but you can also use them in your component. (but these functions are not subscribed to changes)
+The following functions work outside of React e.g. in your middleware but you can also use them in your component.
 
 ```typescript
 import { cartProductsState } from "../cartProductsState";
@@ -95,6 +108,15 @@ cartProductsState.set(
 
 // you can reset to initial state too
 cartProductsState.reset()
+
+// you can also subscribe to state changes outside React
+
+const unsubscribe = cartProductsState.subscribe((newState, oldState) => {
+  console.log("State changed");
+});
+
+// call the returned unsubscribe function to unsubscribe.
+unsubscribe();
 ```
 
 ### Example
@@ -259,11 +281,11 @@ beforeEach(()=> {
 })
 ```
 
-## About us
+### Checkout our other libraries
+- Simple form library for React Native with great UX for developer and end-user [react-native-use-form](https://github.com/web-ridge/react-native-use-form)
+- Smooth and fast cross platform Material Design date and time picker for React Native Paper: [react-native-paper-dates](https://github.com/web-ridge/react-native-paper-dates)
+- Smooth and fast cross platform Material Design Tabs for React Native Paper: [react-native-paper-tabs](https://github.com/web-ridge/react-native-paper-tabs)
+- Simple translations in React (Native): [react-ridge-translations](https://github.com/web-ridge/react-ridge-translations)
+- 1 command utility for React Native (Web) project: [create-react-native-web-application](https://github.com/web-ridge/create-react-native-web-application)
 
-We want developers to be able to build software faster using modern tools like GraphQL, Golang, React Native.
-
-Checkout our other products too! :ok_hand: https://github.com/web-ridge
-
-Easy translations in React / React Native -> https://github.com/web-ridge/react-ridge-translations
 
