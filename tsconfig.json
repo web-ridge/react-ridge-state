@@ -6,7 +6,7 @@
     "outDir": "./dist",
     "removeComments": true,
     "jsx": "react",
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "strict": true
   },
   "include": ["src/*"]
