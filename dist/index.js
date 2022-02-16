@@ -25,9 +25,10 @@ function newRidgeState(initialValue, options) {
         const pv = v;
         v = newValue instanceof Function ? newValue(v) : newValue;
         setTimeout(() => {
+            var _a;
             sb.forEach((c) => c(v, pv));
-            callback?.(v, pv);
-            options?.onSet?.(v, pv);
+            callback === null || callback === void 0 ? void 0 : callback(v, pv);
+            (_a = options === null || options === void 0 ? void 0 : options.onSet) === null || _a === void 0 ? void 0 : _a.call(options, v, pv);
         });
     }
     function subscribe(subscriber) {
