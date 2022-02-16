@@ -1,1 +1,61 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.newRidgeState=void 0;const react_1=require("react"),useIsomorphicLayoutEffect="undefined"!=typeof window||"undefined"!=typeof document?react_1.useLayoutEffect:react_1.useEffect,equ=(e,t)=>e===t,FR={};function useComparator(e,t=equ){const r=(0,react_1.useRef)(FR);let u=r.current;return useIsomorphicLayoutEffect(()=>{r.current=u}),u=r.current!==FR&&t(e,r.current)?u:e}function newRidgeState(e,u){let n=[],o=e;function c(e,t){const r=o;o=e instanceof Function?e(o):e,setTimeout(()=>{n.forEach(e=>e(o,r)),t?.(o,r),u?.onSet?.(o,r)})}function s(t){return n.push(t),()=>{n=n.filter(e=>e!==t)}}function a(){var e,[t,r]=(0,react_1.useState)(o);return e=r,useIsomorphicLayoutEffect(()=>s(e),[e]),[t,c]}return{use:a,useSelector:function(e,t=equ){var[r]=a();return useComparator(e(r),t)},useValue:()=>a()[0],get:()=>o,set:c,reset:()=>c(e),subscribe:s}}exports.newRidgeState=newRidgeState;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.newRidgeState = void 0;
+const react_1 = require("react");
+const useIsomorphicLayoutEffect = typeof window !== "undefined" || typeof document !== "undefined"
+    ? react_1.useLayoutEffect
+    : react_1.useEffect;
+const equ = (a, b) => a === b;
+const FR = {};
+function useComparator(v, c = equ) {
+    const f = (0, react_1.useRef)(FR);
+    let nv = f.current;
+    useIsomorphicLayoutEffect(() => {
+        f.current = nv;
+    });
+    if (f.current === FR || !c(v, f.current)) {
+        nv = v;
+    }
+    return nv;
+}
+function newRidgeState(initialValue, options) {
+    let sb = [];
+    let v = initialValue;
+    function set(newValue, callback) {
+        const pv = v;
+        v = newValue instanceof Function ? newValue(v) : newValue;
+        setTimeout(() => {
+            sb.forEach((c) => c(v, pv));
+            callback?.(v, pv);
+            options?.onSet?.(v, pv);
+        });
+    }
+    function subscribe(subscriber) {
+        sb.push(subscriber);
+        return () => {
+            sb = sb.filter((f) => f !== subscriber);
+        };
+    }
+    function useSubscription(subscriber) {
+        useIsomorphicLayoutEffect(() => subscribe(subscriber), [subscriber]);
+    }
+    function use() {
+        const [l, s] = (0, react_1.useState)(v);
+        useSubscription(s);
+        return [l, set];
+    }
+    function useSelector(selector, comparator = equ) {
+        const [rv] = use();
+        return useComparator(selector(rv), comparator);
+    }
+    return {
+        use,
+        useSelector,
+        useValue: () => use()[0],
+        get: () => v,
+        set,
+        reset: () => set(initialValue),
+        subscribe,
+    };
+}
+exports.newRidgeState = newRidgeState;

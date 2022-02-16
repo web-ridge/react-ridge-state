@@ -1,6 +1,6 @@
 {
   "name": "react-ridge-state",
-  "version": "4.2.6",
+  "version": "4.2.7",
   "description": "react-ridge-state is a very simple global state management library for React and React Native",
   "type": "module",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
   "scripts": {
     "mocha": "mocha -r jsdom-global/register -r ts-node/register tests/**/*.mocha.tsx",
     "test": "jest --maxWorkers=150",
-    "build": "tsc && npm run minify",
+    "build": "tsc",
     "lint": "eslint src tests",
     "minify": "uglifyjs --compress --mangle --output dist/index.js -- dist/index.js"
   },
